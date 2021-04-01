@@ -74,7 +74,7 @@ class FinanceFeast:
         return self._access_token
 
     def _generate_authorization_header(self):
-        return {'Authorization': f'Bearer: {self._access_token}'}
+        return {'Authorization': f'Bearer {self._access_token}'}
 
 
     """
@@ -84,7 +84,7 @@ class FinanceFeast:
     def alive(self):
         """
         Call health/alive endpoint to get health of the API
-        :return:
+        :return: str
         """
         url = url = f'{self._environment}/health/alive'
         headers = self._generate_authorization_header()
@@ -96,7 +96,7 @@ class FinanceFeast:
     def tickers(self):
         """
         Call info/ticker endpoint to get a list of supported tickers
-        :return:
+        :return: list
         """
         url = url = f'{self._environment}/info/ticker'
         headers = self._generate_authorization_header()
@@ -106,14 +106,14 @@ class FinanceFeast:
         try:
             data = r['data']
         except KeyError:
-            data = r['error']
+            data = r
 
         return data
 
     def exchanges(self):
         """
         Call info/exchange endpoint to get a list of supported exchanges
-        :return:
+        :return: list
         """
         url = url = f'{self._environment}/info/exchange'
         headers = self._generate_authorization_header()
@@ -123,7 +123,93 @@ class FinanceFeast:
         try:
             data = r['data']
         except KeyError:
-            data = r['error']
+            data = r
+
+        return data
+
+    def eod(self, ticker:str, date_from:str=None, date_to:str=None, exchange:str='nzx', interval='1d'):
+        """
+        Call data/eod endpoint to get eod of day data
+        :param ticker: ticker to search data for, eg air.nz
+        :param date_from: in format YYYY-MM-DD
+        :param date_to: in format YYYY-MM-DD
+        :param exchange: exhange ticker is in
+        :param interval: data time interval, eg 1d
+        :return:
+        """
+        url = url = f'{self._environment}/data/eod'
+        headers = self._generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise Exception(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if date_from:
+            query.update({'date_from' : date_from})
+
+        if date_to:
+            query.update({'date_to' : date_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if interval:
+            query.update({'interval' : interval})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
+
+    def intraday(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h'):
+        """
+        Call data/eod endpoint to get eod of day data
+        :param ticker: ticker to search data for, eg air.nz
+        :param datetime_from: in format YYYY-MM-DD 00:00:00
+        :param datetime_to: in format YYYY-MM-DD 00:00:00
+        :param exchange: exhange ticker is in
+        :param interval: data time interval, eg 1h
+        :return:
+        """
+        url = url = f'{self._environment}/data/intraday'
+        headers = self._generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise Exception(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if datetime_from:
+            query.update({'date_from' : datetime_from})
+
+        if datetime_to:
+            query.update({'date_to' : datetime_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if interval:
+            query.update({'interval' : interval})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
 
         return data
 
@@ -184,6 +270,9 @@ class FinanceFeast:
 
             if r.status_code == 429:
                 self.logger.error(f'Rate limited exceeded. {r.json()}')
+
+            if r.status_code == 404:
+                self.logger.error(f'URL not found {r.url}')
 
             try:
                 payload = r.json()
