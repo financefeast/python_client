@@ -10,7 +10,7 @@ from financefeast.client import FinanceFeast
     or supply a token using token parameter
 """
 
-client = FinanceFeast(token='YOUR TOKEN')
+client = FinanceFeast()
 
 # alive
 #print(client.alive())
@@ -22,7 +22,7 @@ client = FinanceFeast(token='YOUR TOKEN')
 #print(client.exchanges())
 
 # end of day
-print(client.eod('air.nz', date_from='2020-11-01', date_to='2020-11-29'))
+#print(client.eod('air.nz', date_from='2020-11-01', date_to='2020-11-29'))
 
 # intra day
 #print(client.intraday('air.nz', datetime_from='2020-11-01', datetime_to='2020-11-29'))
