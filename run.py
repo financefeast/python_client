@@ -4,9 +4,13 @@ from financefeast.client import FinanceFeast
     Remember to see some environment variables!
         FF-CLIENT-ID
         FF-CLIENT-SECRET
+        
+    or supply client_id and client_token as parameters
+    
+    or supply a token using token parameter
 """
 
-client = FinanceFeast()
+client = FinanceFeast(token='YOUR TOKEN')
 
 # alive
 #print(client.alive())
@@ -18,7 +22,7 @@ client = FinanceFeast()
 #print(client.exchanges())
 
 # end of day
-#print(client.eod('air.nz', date_from='2020-11-01', date_to='2020-11-29'))
+print(client.eod('air.nz', date_from='2020-11-01', date_to='2020-11-29'))
 
 # intra day
 #print(client.intraday('air.nz', datetime_from='2020-11-01', datetime_to='2020-11-29'))

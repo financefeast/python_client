@@ -14,9 +14,10 @@ class FinanceFeast:
 
     DEFAULT_LOG_LEVEL = logging.INFO
 
-    def __init__(self, client_id:str = None, client_secret:str = None, logger:logging.Logger = None, environment:Environments=Environments.test.value):
+    def __init__(self, client_id:str = None, client_secret:str = None, token:str = None, logger:logging.Logger = None, environment:Environments=Environments.test.value):
         self._client_id = client_id
         self._client_secret =client_secret
+        self._token = token
         self._logger = logger
         self._environment = environment
         self._access_token = None
@@ -34,18 +35,22 @@ class FinanceFeast:
         if not self._client_secret:
             self._client_secret = os.environ.get('FF-CLIENT-SECRET')
 
-        if not self._client_secret:
+        if not self._client_secret and not self._token:
             raise Exception(
-                "parameter `client_id` must be either passed or set as an environment variable 'FF-CLIENT-ID'"
+                "parameter 'client_id' must be either passed or set as an environment variable 'FF-CLIENT-ID', or pass parameter 'token' with a valid bearer token"
             )
 
-        if not self._client_id:
+        if not self._client_id and not self._token:
             raise Exception(
-                "parameter `client_secret` must be either passed or set as an environment variable 'FF-CLIENT-SECRET'"
+                "parameter 'client_secret' must be either passed or set as an environment variable 'FF-CLIENT-SECRET', or pass parameter 'token' with a valid bearer token"
             )
 
-        self._logger.debug(f'Authorizing to Financefeast API environment {self._environment}')
-        self.__authorize()
+        if not self._token:
+            self._logger.debug(f'Authorizing to Financefeast API environment {self._environment}')
+            self.__authorize()
+        else:
+            self._logger.debug(f'Authorized using supplied token to Financefeast API environment {self._environment}')
+            self._access_token = self._token
 
     def __authorize(self):
         """
@@ -587,9 +592,12 @@ class FinanceFeast:
 
         def get(self, *args, **kwargs):
 
+            self.logger.debug(f'Calling url {kwargs.get("url")}')
+
             r = requests.get(*args, timeout=(self.TIMEOUT_CONN, self.TIMEOUT_RESP), **kwargs)
 
             # inspect rate limits
+            self.logger.debug(f'Parsing rate limit headers')
             self.__parse_request_rate_limit_headers(r)
 
             self.logger.debug(

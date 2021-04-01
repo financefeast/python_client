@@ -4,7 +4,7 @@ setup(
     name='financefeast',
     url="https://github.com/financefeast/python_client",
     packages=find_packages(include=['financefeast']),
-    version='0.0.1',
+    version='0.0.2',
     description='A client library for Financefeast API',
     author='Financefeast',
     author_email='support@financefeast.io',
