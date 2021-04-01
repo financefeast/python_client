@@ -12,7 +12,7 @@ class Environments(Enum):
 
 class FinanceFeast:
 
-    DEFAULT_LOG_LEVEL = logging.DEBUG
+    DEFAULT_LOG_LEVEL = logging.INFO
 
     def __init__(self, client_id:str = None, client_secret:str = None, logger:logging.Logger = None, environment:Environments=Environments.test.value):
         self._client_id = client_id
@@ -213,6 +213,338 @@ class FinanceFeast:
 
         return data
 
+    def sma(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h', window:list = [30]):
+        """
+        Call ta/sm-ma endpoint to get simple moving average data
+        :param ticker: ticker to search data for, eg air.nz
+        :param datetime_from: in format YYYY-MM-DD 00:00:00
+        :param datetime_to: in format YYYY-MM-DD 00:00:00
+        :param exchange: exhange ticker is in
+        :param interval: data time interval, eg 1h
+        :param window: a list of moving average windows to calculate, default is [30]
+        :return:
+        """
+        url = url = f'{self._environment}/ta/sm-ma'
+        headers = self._generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise Exception(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if datetime_from:
+            query.update({'date_from' : datetime_from})
+
+        if datetime_to:
+            query.update({'date_to' : datetime_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if interval:
+            query.update({'interval' : interval})
+
+        if window:
+            query.update({'window': window})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
+
+    def ema(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h', window:list = [30]):
+        """
+        Call ta/sm-ma endpoint to get exponential moving average data
+        :param ticker: ticker to search data for, eg air.nz
+        :param datetime_from: in format YYYY-MM-DD 00:00:00
+        :param datetime_to: in format YYYY-MM-DD 00:00:00
+        :param exchange: exhange ticker is in
+        :param interval: data time interval, eg 1h
+        :param window: a list of moving average windows to calculate, default is [30]
+        :return:
+        """
+        url = url = f'{self._environment}/ta/ep-ma'
+        headers = self._generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise Exception(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if datetime_from:
+            query.update({'date_from' : datetime_from})
+
+        if datetime_to:
+            query.update({'date_to' : datetime_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if interval:
+            query.update({'interval' : interval})
+
+        if window:
+            query.update({'window': window})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
+
+    def macd(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h'):
+        """
+        Call ta/macd endpoint to get moving average convergence divergence data
+        :param ticker: ticker to search data for, eg air.nz
+        :param datetime_from: in format YYYY-MM-DD 00:00:00
+        :param datetime_to: in format YYYY-MM-DD 00:00:00
+        :param exchange: exhange ticker is in
+        :param interval: data time interval, eg 1h
+        :return:
+        """
+        url = url = f'{self._environment}/ta/macd'
+        headers = self._generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise Exception(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if datetime_from:
+            query.update({'date_from' : datetime_from})
+
+        if datetime_to:
+            query.update({'date_to' : datetime_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if interval:
+            query.update({'interval' : interval})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
+
+    def rsi(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h', window:int = 14):
+        """
+        Call ta/rsi endpoint to get relative strength indicator data
+        :param ticker: ticker to search data for, eg air.nz
+        :param datetime_from: in format YYYY-MM-DD 00:00:00
+        :param datetime_to: in format YYYY-MM-DD 00:00:00
+        :param exchange: exhange ticker is in
+        :param interval: data time interval, eg 1h
+        :param window: a list of moving average windows to calculate, default is [30]
+        :return:
+        """
+        url = url = f'{self._environment}/ta/rsi'
+        headers = self._generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise Exception(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if datetime_from:
+            query.update({'date_from' : datetime_from})
+
+        if datetime_to:
+            query.update({'date_to' : datetime_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if interval:
+            query.update({'interval' : interval})
+
+        if window:
+            query.update({'window': window})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
+
+    def adx(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h', window:int = 5, window_adx:int = 15):
+        """
+        Call ta/adx endpoint to get average directional index data
+        :param ticker: ticker to search data for, eg air.nz
+        :param datetime_from: in format YYYY-MM-DD 00:00:00
+        :param datetime_to: in format YYYY-MM-DD 00:00:00
+        :param exchange: exhange ticker is in
+        :param interval: data time interval, eg 1h
+        :param window: first adx sliding window lookback
+        :param window_adx: last adx sliding window lookback
+        :return:
+        """
+        url = url = f'{self._environment}/ta/adx'
+        headers = self._generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise Exception(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if datetime_from:
+            query.update({'date_from' : datetime_from})
+
+        if datetime_to:
+            query.update({'date_to' : datetime_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if interval:
+            query.update({'interval' : interval})
+
+        if window:
+            query.update({'window': window})
+
+        if window_adx:
+            query.update({'window_adx': window_adx})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
+
+    def bollinger(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h', window:int = 20):
+        """
+        Call ta/bollinger endpoint to get bollinger band data
+        :param ticker: ticker to search data for, eg air.nz
+        :param datetime_from: in format YYYY-MM-DD 00:00:00
+        :param datetime_to: in format YYYY-MM-DD 00:00:00
+        :param exchange: exhange ticker is in
+        :param interval: data time interval, eg 1h
+        :param window: a list of moving average windows to calculate, default is [30]
+        :return:
+        """
+        url = url = f'{self._environment}/ta/bollinger'
+        headers = self._generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise Exception(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if datetime_from:
+            query.update({'date_from' : datetime_from})
+
+        if datetime_to:
+            query.update({'date_to' : datetime_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if interval:
+            query.update({'interval' : interval})
+
+        if window:
+            query.update({'window': window})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
+
+    def stochastic(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h', window:int = 14, window_sma:int = 3):
+        """
+        Call ta/stochastic endpoint to get stochastic oscillator data
+        :param ticker: ticker to search data for, eg air.nz
+        :param datetime_from: in format YYYY-MM-DD 00:00:00
+        :param datetime_to: in format YYYY-MM-DD 00:00:00
+        :param exchange: exhange ticker is in
+        :param interval: data time interval, eg 1h
+        :param window: window lookback
+        :param window_sma: simple moving average window
+        :return:
+        """
+        url = url = f'{self._environment}/ta/stochastic'
+        headers = self._generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise Exception(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if datetime_from:
+            query.update({'date_from' : datetime_from})
+
+        if datetime_to:
+            query.update({'date_to' : datetime_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if interval:
+            query.update({'interval' : interval})
+
+        if window:
+            query.update({'window': window})
+
+        if window_sma:
+            query.update({'window_sma': window_sma})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
 
     class RequestRateLimited():
         TIMEOUT_CONN = 1.5
