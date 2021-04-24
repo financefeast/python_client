@@ -132,7 +132,7 @@ class FinanceFeast:
 
         return data
 
-    def eod(self, ticker:str, date_from:str=None, date_to:str=None, exchange:str='nzx', interval='1d'):
+    def eod(self, ticker:str, date_from:str=None, date_to:str=None, exchange:str='nzx', interval:str='1d'):
         """
         Call data/eod endpoint to get eod of day data
         :param ticker: ticker to search data for, eg air.nz
@@ -175,7 +175,7 @@ class FinanceFeast:
 
         return data
 
-    def intraday(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h'):
+    def intraday(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h'):
         """
         Call data/eod endpoint to get eod of day data
         :param ticker: ticker to search data for, eg air.nz
@@ -218,7 +218,7 @@ class FinanceFeast:
 
         return data
 
-    def sma(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h', window:list = [30]):
+    def sma(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h', window:list = [30]):
         """
         Call ta/sm-ma endpoint to get simple moving average data
         :param ticker: ticker to search data for, eg air.nz
@@ -265,7 +265,7 @@ class FinanceFeast:
 
         return data
 
-    def ema(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h', window:list = [30]):
+    def ema(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h', window:list = [30]):
         """
         Call ta/sm-ma endpoint to get exponential moving average data
         :param ticker: ticker to search data for, eg air.nz
@@ -312,7 +312,7 @@ class FinanceFeast:
 
         return data
 
-    def macd(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h'):
+    def macd(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h'):
         """
         Call ta/macd endpoint to get moving average convergence divergence data
         :param ticker: ticker to search data for, eg air.nz
@@ -355,7 +355,7 @@ class FinanceFeast:
 
         return data
 
-    def rsi(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h', window:int = 14):
+    def rsi(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h', window:int = 14):
         """
         Call ta/rsi endpoint to get relative strength indicator data
         :param ticker: ticker to search data for, eg air.nz
@@ -402,7 +402,7 @@ class FinanceFeast:
 
         return data
 
-    def adx(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h', window:int = 5, window_adx:int = 15):
+    def adx(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h', window:int = 5, window_adx:int = 15):
         """
         Call ta/adx endpoint to get average directional index data
         :param ticker: ticker to search data for, eg air.nz
@@ -453,7 +453,7 @@ class FinanceFeast:
 
         return data
 
-    def bollinger(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h', window:int = 20):
+    def bollinger(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h', window:int = 20):
         """
         Call ta/bollinger endpoint to get bollinger band data
         :param ticker: ticker to search data for, eg air.nz
@@ -500,7 +500,7 @@ class FinanceFeast:
 
         return data
 
-    def stochastic(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval='1h', window:int = 14, window_sma:int = 3):
+    def stochastic(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h', window:int = 14, window_sma:int = 3):
         """
         Call ta/stochastic endpoint to get stochastic oscillator data
         :param ticker: ticker to search data for, eg air.nz
