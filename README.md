@@ -30,6 +30,15 @@ Using environment variables CLIENT_ID and CLIENT_SECRET.
 client = FinanceFeast()
 ```
 
+### Example
+```python
+from financefeast import FinanceFeast
+
+client = FinanceFeast(client_id="your_client_id", 
+                      client_secret="your_client_secret")
+print(client.tickers())
+```
+
 # Features
 
 All API endpoints are supported, plus detection of ratelimiting.
