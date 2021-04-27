@@ -1,1 +1,1 @@
-from .client import FinanceFeast
+from .client import FinanceFeast, Environments
