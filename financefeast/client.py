@@ -6,6 +6,11 @@ from functools import lru_cache
 
 FF_LOGIN_URI = "oauth/login"
 
+"""
+Financefeast client API library
+https://financefeast.io
+"""
+
 class Environments(Enum):
     test = "https://api.test.financefeast.io"
     prod = "https://api.financefeast.io"
@@ -14,7 +19,7 @@ class FinanceFeast:
 
     DEFAULT_LOG_LEVEL = logging.INFO
 
-    def __init__(self, client_id:str = None, client_secret:str = None, token:str = None, logger:logging.Logger = None, environment:Environments=Environments.test.value):
+    def __init__(self, client_id:str = None, client_secret:str = None, token:str = None, logger:logging.Logger = None, environment:Environments=Environments.prod):
         self._client_id = client_id
         self._client_secret =client_secret
         self._token = token
@@ -29,6 +34,8 @@ class FinanceFeast:
         logging.basicConfig(level=self.DEFAULT_LOG_LEVEL)
 
         self._requests = self.RequestRateLimited(self._logger)
+
+        self._logger.info(f"API environment set as {self._environment.name}")
 
         if not self._client_id:
             self._client_id = os.environ.get('FF-CLIENT-ID')
@@ -58,7 +65,7 @@ class FinanceFeast:
         :return: access token
         """
         if not self._access_token:
-            url = f'{self._environment}/{FF_LOGIN_URI}'
+            url = f'{self._environment.value}/{FF_LOGIN_URI}'
             self._logger.debug(f'Constructed url {url} for authorization')
 
             headers = {"X-FF-ID": self._client_id, "X-FF-SECRET": self._client_secret}
