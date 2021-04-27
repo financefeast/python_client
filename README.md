@@ -8,24 +8,26 @@ Note: this is alpha quality code still, the API may change, and things may fall 
 
 ## Installation
 
-`financefeast` is available from [pypi](https://pypi.org/project/{INSERT ME HERE}/) so you can install it as usual:
+`financefeast` is available from [pypi](https://pypi.org/project/financefeast/) so you can install it as usual:
 
 ```
 $ pip install financefeast
 ```
 
 ## Usage
-You must supply your client id and client secret. Two ways, either when you create an instance of Financefeast by passing
+You must supply your client id and client secret. You can do this one of two ways, either when you create an instance of Financefeast by passing
 client_id and client_secret as args.
-
 ```
 client = FinanceFeast(client_id="SOME ID", client_secret="SOME SECRET")
 ```
 
-or
+*or*
 
-Using environment variables CLIENT_ID and CLIENT_SECRET.
-
+Using environment variables 
+```
+FF-CLIENT-ID and FF-CLIENT-SECRET
+```
+and then
 ```
 client = FinanceFeast()
 ```
