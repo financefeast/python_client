@@ -98,7 +98,7 @@ class FinanceFeast:
         Call health/alive endpoint to get health of the API
         :return: str
         """
-        url = url = f'{self._environment}/health/alive'
+        url = url = f'{self._environment.value}/health/alive'
         headers = self._generate_authorization_header()
 
         r = self._requests.get(url=url, headers=headers)
@@ -127,7 +127,7 @@ class FinanceFeast:
         Call info/exchange endpoint to get a list of supported exchanges
         :return: list
         """
-        url = url = f'{self._environment}/info/exchange'
+        url = url = f'{self._environment.value}/info/exchange'
         headers = self._generate_authorization_header()
 
         r = self._requests.get(url=url, headers=headers)
@@ -149,7 +149,7 @@ class FinanceFeast:
         :param interval: data time interval, eg 1d
         :return:
         """
-        url = url = f'{self._environment}/data/eod'
+        url = url = f'{self._environment.value}/data/eod'
         headers = self._generate_authorization_header()
 
         # check required parameters
@@ -192,7 +192,7 @@ class FinanceFeast:
         :param interval: data time interval, eg 1h
         :return:
         """
-        url = url = f'{self._environment}/data/intraday'
+        url = url = f'{self._environment.value}/data/intraday'
         headers = self._generate_authorization_header()
 
         # check required parameters
@@ -236,7 +236,7 @@ class FinanceFeast:
         :param window: a list of moving average windows to calculate, default is [30]
         :return:
         """
-        url = url = f'{self._environment}/ta/sm-ma'
+        url = url = f'{self._environment.value}/ta/sm-ma'
         headers = self._generate_authorization_header()
 
         # check required parameters
@@ -283,7 +283,7 @@ class FinanceFeast:
         :param window: a list of moving average windows to calculate, default is [30]
         :return:
         """
-        url = url = f'{self._environment}/ta/ep-ma'
+        url = url = f'{self._environment.value}/ta/ep-ma'
         headers = self._generate_authorization_header()
 
         # check required parameters
@@ -329,7 +329,7 @@ class FinanceFeast:
         :param interval: data time interval, eg 1h
         :return:
         """
-        url = url = f'{self._environment}/ta/macd'
+        url = url = f'{self._environment.value}/ta/macd'
         headers = self._generate_authorization_header()
 
         # check required parameters
@@ -373,7 +373,7 @@ class FinanceFeast:
         :param window: a list of moving average windows to calculate, default is [30]
         :return:
         """
-        url = url = f'{self._environment}/ta/rsi'
+        url = url = f'{self._environment.value}/ta/rsi'
         headers = self._generate_authorization_header()
 
         # check required parameters
@@ -421,7 +421,7 @@ class FinanceFeast:
         :param window_adx: last adx sliding window lookback
         :return:
         """
-        url = url = f'{self._environment}/ta/adx'
+        url = url = f'{self._environment.value}/ta/adx'
         headers = self._generate_authorization_header()
 
         # check required parameters
@@ -471,7 +471,7 @@ class FinanceFeast:
         :param window: a list of moving average windows to calculate, default is [30]
         :return:
         """
-        url = url = f'{self._environment}/ta/bollinger'
+        url = url = f'{self._environment.value}/ta/bollinger'
         headers = self._generate_authorization_header()
 
         # check required parameters
@@ -519,7 +519,7 @@ class FinanceFeast:
         :param window_sma: simple moving average window
         :return:
         """
-        url = url = f'{self._environment}/ta/stochastic'
+        url = url = f'{self._environment.value}/ta/stochastic'
         headers = self._generate_authorization_header()
 
         # check required parameters
