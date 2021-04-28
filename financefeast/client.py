@@ -110,7 +110,7 @@ class FinanceFeast:
         Call info/ticker endpoint to get a list of supported tickers
         :return: list
         """
-        url = url = f'{self._environment}/info/ticker'
+        url = url = f'{self._environment.value}/info/ticker'
         headers = self._generate_authorization_header()
 
         r = self._requests.get(url=url, headers=headers)
