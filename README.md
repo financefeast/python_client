@@ -41,6 +41,113 @@ client = FinanceFeast(client_id="your_client_id",
 print(client.tickers())
 ```
 
+## Endpoints
+
+### validate
+Validate your token. Returns 'true' if valid and not expired, otherwise 'false'
+Query params : None
+
+### alive
+Check API health.
+Query params : None
+
+### tickers
+Get a list of supported tickers
+Query params :
+* exchange: string ; limit tickers to this exchange
+
+### exchanges
+Get a list of supported exchanges
+Query params : None
+
+### eod
+Get "end of day" prices for ticker
+Query params :
+* ticker: string ; ticker to return prices (required)
+* date_from: string ; date range start in format YYYY-MM-DD
+* date_to: string ; date range end in format YYYY-MM-DD
+* exchange: string ; exchange ticker is member of
+* interval: string ; data time interval
+
+### intraday
+Get "intraday" prices for ticker
+Query params :
+* ticker: string ; ticker to return prices (required)
+* datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
+* datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
+* exchange: string ; exchange ticker is member of
+* interval: string ; data time interval
+
+### sma
+Get "intraday" prices and simple moving average for ticker
+Query params :
+* ticker: string ; ticker to return prices (required)
+* datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
+* datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
+* exchange: string ; exchange ticker is member of
+* interval: string ; data time interval
+* window: list ; list of integers for the sma lookback window
+
+### ema
+Get "intraday" prices and exponential moving average for ticker
+Query params :
+* ticker: string ; ticker to return prices (required)
+* datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
+* datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
+* exchange: string ; exchange ticker is member of
+* interval: string ; data time interval
+* window: list ; list of integers for the ema lookback window
+
+### macd
+Get "intraday" prices and moving average convergence divergence for ticker
+Query params :
+* ticker: string ; ticker to return prices (required)
+* datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
+* datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
+* exchange: string ; exchange ticker is member of
+* interval: string ; data time interval
+
+### rsi
+Get "intraday" prices and relative strength indicator for ticker
+Query params :
+* ticker: string ; ticker to return prices (required)
+* datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
+* datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
+* exchange: string ; exchange ticker is member of
+* interval: string ; data time interval
+* window: list ; list of integers for the rsi lookback window
+
+### adx
+Get "intraday" prices and average directional index for ticker
+Query params :
+* ticker: string ; ticker to return prices (required)
+* datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
+* datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
+* exchange: string ; exchange ticker is member of
+* interval: string ; data time interval
+* window: integer ; integer for the adx first sliding lookback window
+* window_adx: integer ; integer for the adx last sliding lookback window
+
+### bollinger
+Get "intraday" prices and bollinger band for ticker
+Query params :
+* ticker: string ; ticker to return prices (required)
+* datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
+* datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
+* exchange: string ; exchange ticker is member of
+* interval: string ; data time interval
+* window: list ; list of integers for the bollinger lookback window
+
+### stochastic
+Get "intraday" prices and stochastic oscillator for ticker
+Query params :
+* ticker: string ; ticker to return prices (required)
+* datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
+* datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
+* exchange: string ; exchange ticker is member of
+* interval: string ; data time interval
+* window: integer ; integer for the stochastic lookback window
+
 # Features
 
 All API endpoints are supported, plus detection of ratelimiting.

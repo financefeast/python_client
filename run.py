@@ -12,6 +12,9 @@ from financefeast.client import FinanceFeast
 
 client = FinanceFeast()
 
+# validate
+#print(client.validate())
+
 # alive
 #print(client.alive())
 

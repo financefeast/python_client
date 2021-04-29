@@ -93,6 +93,18 @@ class FinanceFeast:
         Endpoint methods below
     """
 
+    def validate(self):
+        """
+        Call oauth/validate endpoint to validate token
+        :return: str
+        """
+        url = url = f'{self._environment.value}/oauth/validate'
+        headers = self._generate_authorization_header()
+
+        r = self._requests.get(url=url, headers=headers)
+
+        return r
+
     def alive(self):
         """
         Call health/alive endpoint to get health of the API
@@ -105,15 +117,22 @@ class FinanceFeast:
 
         return r
 
-    def tickers(self):
+    def tickers(self, exchange:str=None):
         """
         Call info/ticker endpoint to get a list of supported tickers
+        :param exchange: Exchange to limit tickers to
         :return: list
         """
         url = url = f'{self._environment.value}/info/ticker'
         headers = self._generate_authorization_header()
 
-        r = self._requests.get(url=url, headers=headers)
+        # build query parameters for endpoint
+        query = {}
+
+        if exchange:
+            query.update({'exchange': exchange})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
 
         try:
             data = r['data']
