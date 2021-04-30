@@ -56,6 +56,12 @@ Get a list of supported tickers
 Query params :
 * exchange: string ; limit tickers to this exchange
 
+### tickers_search
+Get a list of supported tickers
+Query params :
+* search_str: string ; search for a ticker symbol, uuid4 or company name. Partials will match and case insensitive
+* exchange: string ; limit tickers to this exchange
+
 ### exchanges
 Get a list of supported exchanges
 Query params : None
@@ -63,7 +69,7 @@ Query params : None
 ### eod
 Get "end of day" prices for ticker
 Query params :
-* ticker: string ; ticker to return prices (required)
+* ticker: string ; symbol or uuid4 of stock to return prices (required)
 * date_from: string ; date range start in format YYYY-MM-DD
 * date_to: string ; date range end in format YYYY-MM-DD
 * exchange: string ; exchange ticker is member of
@@ -72,7 +78,7 @@ Query params :
 ### intraday
 Get "intraday" prices for ticker
 Query params :
-* ticker: string ; ticker to return prices (required)
+* ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
@@ -81,7 +87,7 @@ Query params :
 ### sma
 Get "intraday" prices and simple moving average for ticker
 Query params :
-* ticker: string ; ticker to return prices (required)
+* ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
@@ -91,7 +97,7 @@ Query params :
 ### ema
 Get "intraday" prices and exponential moving average for ticker
 Query params :
-* ticker: string ; ticker to return prices (required)
+* ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
@@ -101,7 +107,7 @@ Query params :
 ### macd
 Get "intraday" prices and moving average convergence divergence for ticker
 Query params :
-* ticker: string ; ticker to return prices (required)
+* ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
@@ -110,7 +116,7 @@ Query params :
 ### rsi
 Get "intraday" prices and relative strength indicator for ticker
 Query params :
-* ticker: string ; ticker to return prices (required)
+* ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
@@ -120,7 +126,7 @@ Query params :
 ### adx
 Get "intraday" prices and average directional index for ticker
 Query params :
-* ticker: string ; ticker to return prices (required)
+* ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
@@ -131,7 +137,7 @@ Query params :
 ### bollinger
 Get "intraday" prices and bollinger band for ticker
 Query params :
-* ticker: string ; ticker to return prices (required)
+* ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
@@ -141,7 +147,7 @@ Query params :
 ### stochastic
 Get "intraday" prices and stochastic oscillator for ticker
 Query params :
-* ticker: string ; ticker to return prices (required)
+* ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of

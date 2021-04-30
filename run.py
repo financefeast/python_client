@@ -21,6 +21,10 @@ client = FinanceFeast()
 #tickers
 #print(client.tickers())
 
+#tickers_search
+#print(client.tickers_search(search_str="1d72e892-7336-4097-a762-7a9680111721"))
+
+
 #exchanges
 #print(client.exchanges())
 

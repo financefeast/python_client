@@ -141,6 +141,31 @@ class FinanceFeast:
 
         return data
 
+    def tickers_search(self, search_str:str, exchange:str=None):
+        """
+        Call info/ticker_search endpoint to get a list of supported tickers matching search string
+        :param search_str: A search string of a ticker symbol, company name or uuid4
+        :param exchange: Exchange to limit tickers to
+        :return: list
+        """
+        url = url = f'{self._environment.value}/info/ticker/{search_str}'
+        headers = self._generate_authorization_header()
+
+        # build query parameters for endpoint
+        query = {}
+
+        if exchange:
+            query.update({'exchange': exchange})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
+
     def exchanges(self):
         """
         Call info/exchange endpoint to get a list of supported exchanges
