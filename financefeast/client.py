@@ -5,6 +5,7 @@ from enum import Enum
 from functools import lru_cache
 from requests.exceptions import ReadTimeout, Timeout
 import os
+from .exceptions import NotAuthorised, MissingClientId, MissingClientSecret, MissingTicker
 
 FF_LOGIN_URI = "oauth/login"
 
@@ -47,12 +48,12 @@ class FinanceFeast:
             self._client_secret = os.environ.get('FF-CLIENT-SECRET')
 
         if not self._client_secret and not self._token:
-            raise Exception(
+            raise MissingClientSecret(
                 "parameter 'client_id' must be either passed or set as an environment variable 'FF-CLIENT-ID', or pass parameter 'token' with a valid bearer token"
             )
 
         if not self._client_id and not self._token:
-            raise Exception(
+            raise MissingClientId(
                 "parameter 'client_secret' must be either passed or set as an environment variable 'FF-CLIENT-SECRET', or pass parameter 'token' with a valid bearer token"
             )
 
@@ -93,9 +94,7 @@ class FinanceFeast:
             return self._access_token
 
         self._logger.warning("No client_id, client_secret or an invalid token has been submitted. Pass a valid token or supply your client credentails to authorize to the Financefeast API")
-        raise Exception(
-            "Not authorized"
-        )
+        raise NotAuthorised()
 
 
     def _check_authorization(self):
@@ -256,7 +255,7 @@ class FinanceFeast:
 
         # check required parameters
         if not ticker:
-            raise Exception(
+            raise MissingTicker(
                 "parameter `ticker` must be either passed"
             )
 
@@ -299,7 +298,7 @@ class FinanceFeast:
 
         # check required parameters
         if not ticker:
-            raise Exception(
+            raise MissingTicker(
                 "parameter `ticker` must be either passed"
             )
 
@@ -343,7 +342,7 @@ class FinanceFeast:
 
         # check required parameters
         if not ticker:
-            raise Exception(
+            raise MissingTicker(
                 "parameter `ticker` must be either passed"
             )
 
@@ -390,7 +389,7 @@ class FinanceFeast:
 
         # check required parameters
         if not ticker:
-            raise Exception(
+            raise MissingTicker(
                 "parameter `ticker` must be either passed"
             )
 
@@ -436,7 +435,7 @@ class FinanceFeast:
 
         # check required parameters
         if not ticker:
-            raise Exception(
+            raise MissingTicker(
                 "parameter `ticker` must be either passed"
             )
 
@@ -480,7 +479,7 @@ class FinanceFeast:
 
         # check required parameters
         if not ticker:
-            raise Exception(
+            raise MissingTicker(
                 "parameter `ticker` must be either passed"
             )
 
@@ -528,7 +527,7 @@ class FinanceFeast:
 
         # check required parameters
         if not ticker:
-            raise Exception(
+            raise MissingTicker(
                 "parameter `ticker` must be either passed"
             )
 
@@ -578,7 +577,7 @@ class FinanceFeast:
 
         # check required parameters
         if not ticker:
-            raise Exception(
+            raise MissingTicker(
                 "parameter `ticker` must be either passed"
             )
 
@@ -626,7 +625,7 @@ class FinanceFeast:
 
         # check required parameters
         if not ticker:
-            raise Exception(
+            raise MissingTicker(
                 "parameter `ticker` must be either passed"
             )
 
@@ -706,9 +705,7 @@ class FinanceFeast:
             try:
                 r = requests.get(*args, timeout=(self.TIMEOUT_CONN, self.TIMEOUT_RESP), **kwargs)
             except (ReadTimeout, Timeout) as e:
-                raise Exception(
-                    f"Timeout triggered calling {kwargs.get('url')}"
-                )
+                raise NotAuthorised()
 
             # inspect rate limits
             self.logger.debug(f'Parsing rate limit headers')
@@ -718,9 +715,7 @@ class FinanceFeast:
                 f'Request to {kwargs.get("url")} returned a {r.status_code} status code')
 
             if r.status_code == 403:
-                raise Exception(
-                    "Not authorized"
-                )
+                raise NotAuthorised()
 
             if r.status_code == 429:
                 self.logger.error(f'Rate limited exceeded. {r.json()}')
