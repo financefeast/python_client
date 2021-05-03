@@ -18,6 +18,9 @@ client = FinanceFeast()
 # alive
 #print(client.alive())
 
+# usage
+print(client.usage(date_from="2021-04-01"))
+
 #tickers
 #print(client.tickers())
 

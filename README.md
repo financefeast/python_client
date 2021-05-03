@@ -51,6 +51,12 @@ Query params : None
 Check API health.
 Query params : None
 
+### usage
+Get account endpoint usage by endpoint, and count by day
+Query params :
+* date_from: string ; date range start in format YYYY-MM-DD
+* date_to: string ; date range end in format YYYY-MM-DD
+
 ### tickers
 Get a list of supported tickers
 Query params :

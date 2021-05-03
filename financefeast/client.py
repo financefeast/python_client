@@ -117,6 +117,34 @@ class FinanceFeast:
 
         return r
 
+    def usage(self,date_from:str=None, date_to:str=None):
+        """
+        Get account usage by endpoint and count by day
+        :param date_from:
+        :param date_to:
+        :return:
+        """
+        url = url = f'{self._environment.value}/account/usage'
+        headers = self._generate_authorization_header()
+
+        # build query parameters for endpoint
+        query = {}
+
+        if date_from:
+            query.update({'date_from' : date_from})
+
+        if date_to:
+            query.update({'date_to' : date_to})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
+
     def tickers(self, exchange:str=None):
         """
         Call info/ticker endpoint to get a list of supported tickers
