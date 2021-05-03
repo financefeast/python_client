@@ -10,7 +10,7 @@ from financefeast.client import FinanceFeast, Environments
     or supply a token using token parameter
 """
 
-client = FinanceFeast(environment=Environments.prod)
+client = FinanceFeast(environment=Environments.dev)
 
 # validate
 #print(client.validate())
@@ -19,7 +19,7 @@ client = FinanceFeast(environment=Environments.prod)
 #print(client.alive())
 
 # usage
-#print(client.usage(date_from="2021-04-01"))
+print(client.usage(date_from="2021-04-01"))
 
 #tickers
 #print(client.tickers())

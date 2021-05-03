@@ -4,8 +4,11 @@ import requests
 from enum import Enum
 from functools import lru_cache
 from requests.exceptions import ReadTimeout, Timeout
+import os
 
 FF_LOGIN_URI = "oauth/login"
+
+os.environ['NO_PROXY'] = 'localhost'
 
 """
 Financefeast client API library
@@ -57,15 +60,19 @@ class FinanceFeast:
             self._logger.debug(f'Authorizing to Financefeast API environment {self._environment}')
             self.__authorize()
         else:
-            self._logger.debug(f'Authorized using supplied token to Financefeast API environment {self._environment}')
-            self._access_token = self._token
+            validated = self._check_authorization()
+            if not validated:
+                self.__authorize()
+            else:
+                self._logger.debug(f'Authorized using supplied token to Financefeast API environment {self._environment}')
+                self._access_token = self._token
 
     def __authorize(self):
         """
         Authorize client credentials
         :return: access token
         """
-        if not self._access_token:
+        if not self._access_token and self._client_id and self._client_secret:
             url = f'{self._environment.value}/{FF_LOGIN_URI}'
             self._logger.debug(f'Constructed url {url} for authorization')
 
@@ -82,9 +89,31 @@ class FinanceFeast:
                     f'{payload["detail"]}'
                 )
 
-            self._logger.info("Client successfully authorized to API")
+            self._logger.info("Client successfully authorized to API using client credentials")
+            return self._access_token
 
-        return self._access_token
+        self._logger.warning("No client_id, client_secret or an invalid token has been submitted. Pass a valid token or supply your client credentails to authorize to the Financefeast API")
+        raise Exception(
+            "Not authorized"
+        )
+
+
+    def _check_authorization(self):
+        """
+        Check a token is valid by calling the validate endpoint
+        :return:
+        """
+        self._logger.debug("Introspecting token")
+        introspected_token_result = self.validate()
+
+        if not introspected_token_result:
+            self._access_token = None
+            self._logger.warning(f"Token is not valid or has expired.")
+            return False
+
+        self._logger.debug("Token is valid")
+        return True
+
 
     def _generate_authorization_header(self):
         return {'Authorization': f'Bearer {self._access_token}'}
@@ -633,7 +662,7 @@ class FinanceFeast:
 
     class RequestRateLimited():
         TIMEOUT_CONN = 1.5
-        TIMEOUT_RESP = 1.5
+        TIMEOUT_RESP = 5
         RATE_LIMIT_HEADER_LIMIT_NAME = 'x-ratelimit-limit'
         RATE_LIMIT_HEADER_REMAINING_NAME = 'x-ratelimit-remaining'
         RATE_LIMIT_HEADER_RESET_NAME = 'x-ratelimit-reset'
