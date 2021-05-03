@@ -3,6 +3,7 @@ import logging
 import requests
 from enum import Enum
 from functools import lru_cache
+from requests.exceptions import ReadTimeout, Timeout
 
 FF_LOGIN_URI = "oauth/login"
 
@@ -21,7 +22,7 @@ class FinanceFeast:
 
     def __init__(self, client_id:str = None, client_secret:str = None, token:str = None, logger:logging.Logger = None, environment:Environments=Environments.prod):
         self._client_id = client_id
-        self._client_secret =client_secret
+        self._client_secret = client_secret
         self._token = token
         self._logger = logger
         self._environment = environment
@@ -673,7 +674,12 @@ class FinanceFeast:
 
             self.logger.debug(f'Calling url {kwargs.get("url")}')
 
-            r = requests.get(*args, timeout=(self.TIMEOUT_CONN, self.TIMEOUT_RESP), **kwargs)
+            try:
+                r = requests.get(*args, timeout=(self.TIMEOUT_CONN, self.TIMEOUT_RESP), **kwargs)
+            except (ReadTimeout, Timeout) as e:
+                raise Exception(
+                    f"Timeout triggered calling {kwargs.get('url')}"
+                )
 
             # inspect rate limits
             self.logger.debug(f'Parsing rate limit headers')
