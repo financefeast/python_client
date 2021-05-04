@@ -25,11 +25,12 @@ class FinanceFeast:
 
     DEFAULT_LOG_LEVEL = logging.INFO
 
-    def __init__(self, client_id:str = None, client_secret:str = None, token:str = None, logger:logging.Logger = None, environment:Environments=Environments.prod):
+    def __init__(self, client_id:str = None, client_secret:str = None, token:str = None, logger:logging.Logger = None, environment:Environments=Environments.prod, **kwargs):
         self._client_id = client_id
         self._client_secret = client_secret
         self._token = token
         self._logger = logger
+        self._kwargs = kwargs
         self._environment = environment
 
         if not logger:
@@ -61,11 +62,12 @@ class FinanceFeast:
             self._logger.debug(f'Authorizing to Financefeast API environment {self._environment}')
             self.__authorize()
         else:
-            validated = self._check_authorization()
-            if not validated:
-                self.__authorize()
-            else:
-                self._logger.debug(f'Authorized using supplied token to Financefeast API environment {self._environment}')
+            if not 'no_pre_authentication' in self._kwargs:
+                validated = self._check_authorization()
+                if not validated:
+                    self.__authorize()
+                else:
+                    self._logger.debug(f'Authorized using supplied token to Financefeast API environment {self._environment}')
 
     def __authorize(self):
         """

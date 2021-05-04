@@ -10,7 +10,7 @@ from financefeast.client import FinanceFeast, Environments
     or supply a token using token parameter
 """
 
-client = FinanceFeast(environment=Environments.dev)
+client = FinanceFeast(environment=Environments.dev, token="sss")
 
 # validate
 #print(client.validate())
