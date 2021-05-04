@@ -17,6 +17,7 @@ https://financefeast.io
 """
 
 class Environments(Enum):
+    dev = "http://localhost:5001"
     test = "https://api.test.financefeast.io"
     prod = "https://api.financefeast.io"
 
@@ -30,7 +31,6 @@ class FinanceFeast:
         self._token = token
         self._logger = logger
         self._environment = environment
-        self._access_token = None
 
         if not logger:
             self._logger = logging.getLogger('ff_client')
@@ -66,14 +66,13 @@ class FinanceFeast:
                 self.__authorize()
             else:
                 self._logger.debug(f'Authorized using supplied token to Financefeast API environment {self._environment}')
-                self._access_token = self._token
 
     def __authorize(self):
         """
         Authorize client credentials
         :return: access token
         """
-        if not self._access_token and self._client_id and self._client_secret:
+        if not self._token and self._client_id and self._client_secret:
             url = f'{self._environment.value}/{FF_LOGIN_URI}'
             self._logger.debug(f'Constructed url {url} for authorization')
 
@@ -82,7 +81,7 @@ class FinanceFeast:
             payload = self._requests.get(url=url, headers=headers)
 
             try:
-                self._access_token = payload['access_token']
+                self._token = payload['access_token']
                 self._logger.debug('Found a valid access_token')
             except KeyError:
                 self._logger.exception(f'{payload["detail"]}')
@@ -91,7 +90,7 @@ class FinanceFeast:
                 )
 
             self._logger.info("Client successfully authorized to API using client credentials")
-            return self._access_token
+            return self._token
 
         self._logger.warning("No client_id, client_secret or an invalid token has been submitted. Pass a valid token or supply your client credentails to authorize to the Financefeast API")
         raise NotAuthorised()
@@ -106,7 +105,7 @@ class FinanceFeast:
         introspected_token_result = self.validate()
 
         if not introspected_token_result:
-            self._access_token = None
+            self._token = None
             self._logger.warning(f"Token is not valid or has expired.")
             return False
 
@@ -115,7 +114,7 @@ class FinanceFeast:
 
 
     def _generate_authorization_header(self):
-        return {'Authorization': f'Bearer {self._access_token}'}
+        return {'Authorization': f'Bearer {self._token}'}
 
 
     """
