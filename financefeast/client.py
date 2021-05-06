@@ -660,6 +660,222 @@ class FinanceFeast:
 
         return data
 
+    def cashflow(self, ticker:str, date_from:str=None, date_to:str=None, year:str=None, exchange:str='nzx'):
+        """
+        Call financial/cashflow endpoint to get cashflow financial data
+        :param ticker: ticker to search data for, eg air.nz
+        :param date_from: in format YYYY-MM-DD
+        :param date_to: in format YYYY-MM-DD
+        :param exchange: exhange ticker is in
+        :param year: year to search records for in format YYYY, eg 2020
+        :return:
+        """
+        url = url = f'{self._environment.value}/financial/cashflow'
+        headers = self._generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise MissingTicker(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if date_from:
+            query.update({'date_from' : date_from})
+
+        if date_to:
+            query.update({'date_to' : date_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if year:
+            query.update({'year' : year})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
+
+    def income(self, ticker:str, date_from:str=None, date_to:str=None, year:str=None, exchange:str='nzx'):
+        """
+        Call financial/income endpoint to get income financial data
+        :param ticker: ticker to search data for, eg air.nz
+        :param date_from: in format YYYY-MM-DD
+        :param date_to: in format YYYY-MM-DD
+        :param exchange: exhange ticker is in
+        :param year: year to search records for in format YYYY, eg 2020
+        :return:
+        """
+        url = url = f'{self._environment.value}/financial/income'
+        headers = self._generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise MissingTicker(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if date_from:
+            query.update({'date_from' : date_from})
+
+        if date_to:
+            query.update({'date_to' : date_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if year:
+            query.update({'year' : year})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
+
+
+    def balance(self, ticker:str, date_from:str=None, date_to:str=None, year:str=None, exchange:str='nzx'):
+        """
+        Call financial/balance endpoint to get balance sheet financial data
+        :param ticker: ticker to search data for, eg air.nz
+        :param date_from: in format YYYY-MM-DD
+        :param date_to: in format YYYY-MM-DD
+        :param exchange: exhange ticker is in
+        :param year: year to search records for in format YYYY, eg 2020
+        :return:
+        """
+        url = url = f'{self._environment.value}/financial/balance'
+        headers = self._generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise MissingTicker(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if date_from:
+            query.update({'date_from' : date_from})
+
+        if date_to:
+            query.update({'date_to' : date_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if year:
+            query.update({'year' : year})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
+
+    def dividend(self, ticker:str, date_from:str=None, date_to:str=None, year:str=None, exchange:str='nzx'):
+        """
+        Call financial/dividend endpoint to get stock dividend payout data
+        :param ticker: ticker to search data for, eg air.nz
+        :param date_from: in format YYYY-MM-DD
+        :param date_to: in format YYYY-MM-DD
+        :param exchange: exhange ticker is in
+        :param year: year to search records for in format YYYY, eg 2020
+        :return:
+        """
+        url = url = f'{self._environment.value}/financial/dividend'
+        headers = self._generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise MissingTicker(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if date_from:
+            query.update({'date_from' : date_from})
+
+        if date_to:
+            query.update({'date_to' : date_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if year:
+            query.update({'year' : year})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
+
+    def split(self, ticker:str, date_from:str=None, date_to:str=None, year:str=None, exchange:str='nzx'):
+        """
+        Call financial/split endpoint to get stock split ratio data
+        :param ticker: ticker to search data for, eg air.nz
+        :param date_from: in format YYYY-MM-DD
+        :param date_to: in format YYYY-MM-DD
+        :param exchange: exhange ticker is in
+        :param year: year to search records for in format YYYY, eg 2020
+        :return:
+        """
+        url = url = f'{self._environment.value}/financial/split'
+        headers = self._generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise MissingTicker(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if date_from:
+            query.update({'date_from' : date_from})
+
+        if date_to:
+            query.update({'date_to' : date_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if year:
+            query.update({'year' : year})
+
+        r = self._requests.get(url=url, headers=headers, params=query)
+
+        try:
+            data = r['data']
+        except KeyError:
+            data = r
+
+        return data
+
     class RequestRateLimited():
         TIMEOUT_CONN = 1.5
         TIMEOUT_RESP = 5
