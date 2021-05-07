@@ -43,6 +43,13 @@ print(client.tickers())
 
 ## Endpoints
 
+Notes:
+* For endpoints that have date query parameters, if these are not passed then the default will be the current day, except
+ for financial endpoints where the date will default to the current calendar year.
+* Ticker query parameter can either be a symbol or uuid4 string. The uuid4 string is explict, where the symbol could be
+ in multiple exchanges. If the exchange query parameter is also passed with symbol then that would be explict also.
+
+
 ### validate
 Validate your token. Returns 'true' if valid and not expired, otherwise 'false'
 Query params : None
@@ -91,7 +98,7 @@ Query params :
 * interval: string ; data time interval
 
 ### sma
-Get "intraday" prices and simple moving average for ticker
+Get "sma" prices and simple moving average for ticker
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -101,7 +108,7 @@ Query params :
 * window: list ; list of integers for the sma lookback window
 
 ### ema
-Get "intraday" prices and exponential moving average for ticker
+Get "ema" prices and exponential moving average for ticker
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -111,7 +118,7 @@ Query params :
 * window: list ; list of integers for the ema lookback window
 
 ### macd
-Get "intraday" prices and moving average convergence divergence for ticker
+Get "macd" prices and moving average convergence divergence for ticker
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -120,7 +127,7 @@ Query params :
 * interval: string ; data time interval
 
 ### rsi
-Get "intraday" prices and relative strength indicator for ticker
+Get "rsi" prices and relative strength indicator for ticker
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -130,7 +137,7 @@ Query params :
 * window: list ; list of integers for the rsi lookback window
 
 ### adx
-Get "intraday" prices and average directional index for ticker
+Get "adx" prices and average directional index for ticker
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -141,7 +148,7 @@ Query params :
 * window_adx: integer ; integer for the adx last sliding lookback window
 
 ### bollinger
-Get "intraday" prices and bollinger band for ticker
+Get "bollinger" prices and bollinger band for ticker
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -151,7 +158,7 @@ Query params :
 * window: list ; list of integers for the bollinger lookback window
 
 ### stochastic
-Get "intraday" prices and stochastic oscillator for ticker
+Get "stochastic" prices and stochastic oscillator for ticker
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -159,6 +166,51 @@ Query params :
 * exchange: string ; exchange ticker is member of
 * interval: string ; data time interval
 * window: integer ; integer for the stochastic lookback window
+
+### cashflow
+Get "cashflow" financial data for ticker
+Query params :
+* ticker: string ; symbol or uuid4 of stock to return data (required)
+* date_from: string ; date range start in format YYYY-MM-DD
+* date_to: string ; date range end in format YYYY-MM-DD
+* year: string ; year to search data for in format YYYY
+* exchange: string ; exchange ticker is member of
+
+### income
+Get "income" financial data for ticker
+Query params :
+* ticker: string ; symbol or uuid4 of stock to return data (required)
+* date_from: string ; date range start in format YYYY-MM-DD
+* date_to: string ; date range end in format YYYY-MM-DD
+* year: string ; year to search data for in format YYYY
+* exchange: string ; exchange ticker is member of
+
+### balance
+Get "balance sheet" financial data for ticker
+Query params :
+* ticker: string ; symbol or uuid4 of stock to return data (required)
+* date_from: string ; date range start in format YYYY-MM-DD
+* date_to: string ; date range end in format YYYY-MM-DD
+* year: string ; year to search data for in format YYYY
+* exchange: string ; exchange ticker is member of
+
+### dividend
+Get "dividend payout" data for ticker
+Query params :
+* ticker: string ; symbol or uuid4 of stock to return data (required)
+* date_from: string ; date range start in format YYYY-MM-DD
+* date_to: string ; date range end in format YYYY-MM-DD
+* year: string ; year to search data for in format YYYY
+* exchange: string ; exchange ticker is member of
+
+### split
+Get "split ratio" data for ticker
+Query params :
+* ticker: string ; symbol or uuid4 of stock to return data (required)
+* date_from: string ; date range start in format YYYY-MM-DD
+* date_to: string ; date range end in format YYYY-MM-DD
+* year: string ; year to search data for in format YYYY
+* exchange: string ; exchange ticker is member of
 
 # Features
 
