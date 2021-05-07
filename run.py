@@ -10,7 +10,7 @@ from financefeast.client import FinanceFeast, Environments
     or supply a token using token parameter
 """
 
-client = FinanceFeast(environment=Environments.dev, token="sss")
+client = FinanceFeast(environment=Environments.test)
 
 # validate
 #print(client.validate())
@@ -57,3 +57,6 @@ client = FinanceFeast(environment=Environments.dev, token="sss")
 
 # stochastic
 #print(client.stochastic('air.nz', datetime_from='2020-11-01', datetime_to='2020-11-29'))
+
+# balance
+#print(client.balance('air.nz', year=2020))
