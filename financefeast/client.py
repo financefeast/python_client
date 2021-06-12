@@ -172,6 +172,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -196,6 +198,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -221,6 +225,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -238,6 +244,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -281,6 +289,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -324,6 +334,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -371,6 +383,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -418,6 +432,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -461,6 +477,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -508,6 +526,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -559,6 +579,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -606,6 +628,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -657,6 +681,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -700,6 +726,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -743,6 +771,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -787,6 +817,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -830,6 +862,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
@@ -873,6 +907,8 @@ class FinanceFeast:
             data = r['data']
         except KeyError:
             data = r
+        except TypeError:
+            data = []
 
         return data
 
