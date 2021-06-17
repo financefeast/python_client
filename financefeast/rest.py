@@ -7,6 +7,8 @@ from requests.exceptions import ReadTimeout, Timeout, HTTPError
 import os
 from .exceptions import NotAuthorised, MissingClientId, MissingClientSecret, MissingTicker, RateLimitExceeded
 from financefeast.common import Environments
+from financefeast.entity import Response
+
 
 os.environ['NO_PROXY'] = 'localhost'
 
@@ -77,45 +79,41 @@ class Rest:
         :return: access token
         """
 
-        if not self._client_id:
-            self._client_id = os.environ.get('FF-CLIENT-ID')
-        if not self._client_secret:
-            self._client_secret = os.environ.get('FF-CLIENT-SECRET')
+        if not self._token:
+            if not self._client_id:
+                self._client_id = os.environ.get('FF-CLIENT-ID')
+            if not self._client_secret:
+                self._client_secret = os.environ.get('FF-CLIENT-SECRET')
 
-        if not self._client_secret and not self._token:
-            raise MissingClientSecret(
-                "parameter 'client_id' must be either passed or set as an environment variable 'FF-CLIENT-ID', or pass parameter 'token' with a valid bearer token"
-            )
+            if not self._client_secret and not self._token:
+                raise MissingClientSecret(
+                    "parameter 'client_id' must be either passed or set as an environment variable 'FF-CLIENT-ID', or pass parameter 'token' with a valid bearer token"
+                )
 
-        if not self._client_id and not self._token:
-            raise MissingClientId(
-                "parameter 'client_secret' must be either passed or set as an environment variable 'FF-CLIENT-SECRET', or pass parameter 'token' with a valid bearer token"
-            )
+            if not self._client_id and not self._token:
+                raise MissingClientId(
+                    "parameter 'client_secret' must be either passed or set as an environment variable 'FF-CLIENT-SECRET', or pass parameter 'token' with a valid bearer token"
+                )
 
-        if not self._token and self._client_id and self._client_secret:
-            url = f'{self._environment.value}/oauth/login'
-            self._logger.debug(f'Constructed url {url} for authorization')
+            if not self._token and self._client_id and self._client_secret:
+                url = f'{self._environment.value}/oauth/login'
+                self._logger.debug(f'Constructed url {url} for authorization')
 
-            headers = {"X-FF-ID": self._client_id, "X-FF-SECRET": self._client_secret}
+                headers = {"X-FF-ID": self._client_id, "X-FF-SECRET": self._client_secret}
 
-            payload = self._requests.get(url=url, headers=headers)
+                r = self._requests.get(url=url, headers=headers)
 
-            if payload:
-                try:
-                    self._token = payload['access_token']
+                if r.token:
+                    self._token = r.token
                     self._logger.debug('Found a valid access_token')
-                except KeyError:
-                    self._logger.exception(f'{payload["detail"]}')
-                    raise Exception(
-                        f'{payload["detail"]}'
-                    )
 
-                self._logger.info("Client successfully authorized to API using client credentials")
-                return self._token
+                    self._logger.info("Client successfully authorized to API using client credentials")
+                    return self._token
 
-        self._logger.warning("No client_id, client_secret or an invalid token has been submitted. Pass a valid token or supply your client credentails to authorize to the Financefeast API")
-        raise NotAuthorised()
+            self._logger.warning("No client_id, client_secret or an invalid token has been submitted. Pass a valid token or supply your client credentails to authorize to the Financefeast API")
+            raise NotAuthorised()
 
+        return self._token
 
     def __check_authorization(self):
         """
@@ -201,8 +199,7 @@ class Rest:
                 raise RateLimitExceeded(r.json())
 
             if r.text:
-                if 'data' in r.text:
-                    return r.json()
+                return Response(r.json())
 
             return None
 
@@ -232,9 +229,7 @@ class Rest:
         url = url = f'{self._environment.value}/oauth/validate'
         headers = self.__generate_authorization_header()
 
-        r = self._requests.get(url=url, headers=headers)
-
-        return r
+        return self._requests.get(url=url, headers=headers)
 
     def alive(self):
         """
@@ -243,9 +238,7 @@ class Rest:
         """
         url = url = f'{self._environment.value}/health/alive'
 
-        r = self._requests.get(url=url)
-
-        return r
+        return self._requests.get(url=url)
 
     def usage(self,date_from:str=None, date_to:str=None):
         """
@@ -272,16 +265,7 @@ class Rest:
         if date_to:
             query.update({'date_to' : date_to})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
-
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
+        return self._requests.get(url=url, headers=headers, params=query)
 
     def tickers(self, exchange:str=None):
         """
@@ -297,16 +281,7 @@ class Rest:
         if exchange:
             query.update({'exchange': exchange})
 
-        r = self._requests.get(url=url, params=query)
-
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
+        return self._requests.get(url=url, params=query)
 
     def tickers_search(self, search_str:str, exchange:str=None):
         """
@@ -323,16 +298,7 @@ class Rest:
         if exchange:
             query.update({'exchange': exchange})
 
-        r = self._requests.get(url=url, params=query)
-
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
+        return self._requests.get(url=url, params=query)
 
     def exchanges(self):
         """
@@ -341,16 +307,7 @@ class Rest:
         """
         url = url = f'{self._environment.value}/info/exchange'
 
-        r = self._requests.get(url=url)
-
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
+        return self._requests.get(url=url)
 
     def eod(self, ticker:str, date_from:str=None, date_to:str=None, exchange:str='nzx', interval:str='1d'):
         """
@@ -392,16 +349,8 @@ class Rest:
         if interval:
             query.update({'interval' : interval})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
+        return self._requests.get(url=url, headers=headers, params=query)
 
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
 
     def intraday(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h'):
         """
@@ -443,16 +392,8 @@ class Rest:
         if interval:
             query.update({'interval' : interval})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
+        return self._requests.get(url=url, headers=headers, params=query)
 
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
 
     def sma(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h', window:list = [30]):
         """
@@ -498,16 +439,8 @@ class Rest:
         if window:
             query.update({'window': window})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
+        return self._requests.get(url=url, headers=headers, params=query)
 
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
 
     def ema(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h', window:list = [30]):
         """
@@ -553,16 +486,8 @@ class Rest:
         if window:
             query.update({'window': window})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
+        return self._requests.get(url=url, headers=headers, params=query)
 
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
 
     def macd(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h'):
         """
@@ -604,16 +529,8 @@ class Rest:
         if interval:
             query.update({'interval' : interval})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
+        return self._requests.get(url=url, headers=headers, params=query)
 
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
 
     def rsi(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h', window:int = 14):
         """
@@ -659,16 +576,8 @@ class Rest:
         if window:
             query.update({'window': window})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
+        return self._requests.get(url=url, headers=headers, params=query)
 
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
 
     def adx(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h', window:int = 5, window_adx:int = 15):
         """
@@ -718,16 +627,8 @@ class Rest:
         if window_adx:
             query.update({'window_adx': window_adx})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
+        return self._requests.get(url=url, headers=headers, params=query)
 
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
 
     def bollinger(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h', window:int = 20):
         """
@@ -773,16 +674,8 @@ class Rest:
         if window:
             query.update({'window': window})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
+        return self._requests.get(url=url, headers=headers, params=query)
 
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
 
     def stochastic(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h', window:int = 14, window_sma:int = 3):
         """
@@ -832,16 +725,8 @@ class Rest:
         if window_sma:
             query.update({'window_sma': window_sma})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
+        return self._requests.get(url=url, headers=headers, params=query)
 
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
 
     def cashflow(self, ticker:str, date_from:str=None, date_to:str=None, year:str=None, exchange:str='nzx'):
         """
@@ -883,16 +768,8 @@ class Rest:
         if year:
             query.update({'year' : year})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
+        return self._requests.get(url=url, headers=headers, params=query)
 
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
 
     def income(self, ticker:str, date_from:str=None, date_to:str=None, year:str=None, exchange:str='nzx'):
         """
@@ -934,16 +811,8 @@ class Rest:
         if year:
             query.update({'year' : year})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
+        return self._requests.get(url=url, headers=headers, params=query)
 
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
 
 
     def balance(self, ticker:str, date_from:str=None, date_to:str=None, year:str=None, exchange:str='nzx'):
@@ -986,16 +855,8 @@ class Rest:
         if year:
             query.update({'year' : year})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
+        return self._requests.get(url=url, headers=headers, params=query)
 
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
 
     def dividend(self, ticker:str, date_from:str=None, date_to:str=None, year:str=None, exchange:str='nzx'):
         """
@@ -1037,16 +898,8 @@ class Rest:
         if year:
             query.update({'year' : year})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
+        return self._requests.get(url=url, headers=headers, params=query)
 
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
 
     def split(self, ticker:str, date_from:str=None, date_to:str=None, year:str=None, exchange:str='nzx'):
         """
@@ -1088,13 +941,5 @@ class Rest:
         if year:
             query.update({'year' : year})
 
-        r = self._requests.get(url=url, headers=headers, params=query)
+        return self._requests.get(url=url, headers=headers, params=query)
 
-        try:
-            data = r['data']
-        except KeyError:
-            data = r
-        except TypeError:
-            data = []
-
-        return data
