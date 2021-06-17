@@ -1,4 +1,4 @@
-
+from types import SimpleNamespace
 
 class Response(object):
 
@@ -11,16 +11,26 @@ class Response(object):
         """
         return "{}({!r})".format(self.__class__.__name__, self.__dict__)
 
+    def __getattr__(self, item):
+        try:
+            return self._payload[item]
+        except KeyError:
+            return None
+
+    def __iter__(self):
+        for attr, value in self.__dict__.items():
+            yield attr, value
+
     @property
     def data(self):
         try:
-            return self._payload['data']
+            return SimpleNamespace(**self._payload['data'])
         except KeyError:
             return []
 
     @property
-    def token(self):
+    def all(self):
         try:
-            return self._payload['access_token']
+            return SimpleNamespace(**self._payload)
         except KeyError:
-            return None
+            return []

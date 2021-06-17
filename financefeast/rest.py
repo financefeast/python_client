@@ -103,8 +103,8 @@ class Rest:
 
                 r = self._requests.get(url=url, headers=headers)
 
-                if r.token:
-                    self._token = r.token
+                if r.access_token:
+                    self._token = r.access_token
                     self._logger.debug('Found a valid access_token')
 
                     self._logger.info("Client successfully authorized to API using client credentials")
