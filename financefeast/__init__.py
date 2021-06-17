@@ -1,2 +1,2 @@
-from financefeast.client import FinanceFeast, Environments
+from financefeast.rest import Rest, Environments
 import financefeast.exceptions

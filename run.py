@@ -1,4 +1,4 @@
-from financefeast.client import FinanceFeast, Environments
+from financefeast.rest import Rest, Environments
 
 """
     Remember to see some environment variables!
@@ -10,7 +10,7 @@ from financefeast.client import FinanceFeast, Environments
     or supply a token using token parameter
 """
 
-client = FinanceFeast(environment=Environments.prod)
+client = Rest(environment=Environments.prod)
 
 # validate
 #print(client.validate())
@@ -22,7 +22,7 @@ client = FinanceFeast(environment=Environments.prod)
 #print(client.usage(date_from="2021-04-01"))
 
 #tickers
-#print(client.tickers())
+print(client.tickers())
 
 #tickers_search
 #print(client.tickers_search(search_str="1d72e892-7336-4097-a762-7a9680111721"))

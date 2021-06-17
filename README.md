@@ -15,29 +15,45 @@ $ pip install financefeast
 ```
 
 ## Usage
-You must supply your client id and client secret. You can do this one of two ways, either when you create an instance of Financefeast by passing
-client_id and client_secret as args.
-```
-client = FinanceFeast(client_id="SOME ID", client_secret="SOME SECRET")
-```
+You must supply one of either :
+* Your client id and client secret. You can do this one of two ways, either when you create an instance of Financefeast by passing
+   client_id and client_secret as args.
+   ```
+   client = FinanceFeast(client_id="SOME ID", client_secret="SOME SECRET")
+   ```
+   
+   *or*
+   
+   Using environment variables 
+   ```
+   FF-CLIENT-ID and FF-CLIENT-SECRET
+   ```
+   and then
+   ```
+   client = FinanceFeast()
+   ```
+* A valid access token
+   ```
+   client = FinanceFeast(token="SOME ACCESS TOKEN")
+   ```
 
-*or*
-
-Using environment variables 
-```
-FF-CLIENT-ID and FF-CLIENT-SECRET
-```
-and then
-```
-client = FinanceFeast()
-```
 
 ### Example
-```python
-from financefeast import FinanceFeast
 
-client = FinanceFeast(client_id="your_client_id", 
-                      client_secret="your_client_secret")
+```python
+from financefeast import Rest
+
+client = Rest(client_id="your_client_id",
+              client_secret="your_client_secret")
+print(client.tickers())
+```
+
+or
+
+```python
+from financefeast import Rest
+
+client = Rest(token="0Coreo505Xcm46*xkrj$sodm232s")
 print(client.tickers())
 ```
 
