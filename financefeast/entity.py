@@ -1,5 +1,9 @@
 from types import SimpleNamespace
 
+"""
+The Response class returns 
+"""
+
 class Response(object):
 
     def __init__(self, payload):
@@ -24,7 +28,7 @@ class Response(object):
     @property
     def data(self):
         try:
-            return SimpleNamespace(**self._payload['data'])
+            return self._payload['data']
         except KeyError:
             return []
 
