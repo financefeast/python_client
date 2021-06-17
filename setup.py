@@ -1,4 +1,6 @@
 from setuptools import find_packages, setup
+import re
+import ast
 
 try:
     import pypandoc
@@ -6,11 +8,17 @@ try:
 except(IOError, ImportError):
     long_description = open('README.md').read()
 
+_version_re = re.compile(r'__version__\s+=\s+(.*)')
+
+with open('financefeast/__init__.py', 'rb') as f:
+    version = str(ast.literal_eval(_version_re.search(
+        f.read().decode('utf-8')).group(1)))
+
 setup(
     name='financefeast',
     url="https://github.com/financefeast/python_client",
     packages=find_packages(include=['financefeast']),
-    version='0.0.19',
+    version=version,
     description='A client library for Financefeast API',
     long_description=long_description,
     long_description_content_type='text/markdown',

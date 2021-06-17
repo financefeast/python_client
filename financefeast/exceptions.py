@@ -7,7 +7,13 @@ class NotAuthorised(Exception):
     """
     Raises an Not Authorised exception for a 403 HTTP response from the API
     """
-    pass
+
+
+class RateLimitExceeded(Exception):
+    """
+    Rate Limit exceeded
+    """
+    super(Exception)
 
 class MissingClientId(Exception):
     """

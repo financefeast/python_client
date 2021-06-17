@@ -5,7 +5,8 @@ from enum import Enum
 from functools import lru_cache
 from requests.exceptions import ReadTimeout, Timeout, HTTPError
 import os
-from .exceptions import NotAuthorised, MissingClientId, MissingClientSecret, MissingTicker
+from .exceptions import NotAuthorised, MissingClientId, MissingClientSecret, MissingTicker, RateLimitExceeded
+from financefeast.common import Environments
 
 os.environ['NO_PROXY'] = 'localhost'
 
@@ -14,9 +15,6 @@ Financefeast client API library
 https://financefeast.io
 """
 
-class Environments(Enum):
-    test = "https://api.test.financefeast.io"
-    prod = "https://api.financefeast.io"
 
 class APIError(Exception):
     """
@@ -102,17 +100,18 @@ class Rest:
 
             payload = self._requests.get(url=url, headers=headers)
 
-            try:
-                self._token = payload['access_token']
-                self._logger.debug('Found a valid access_token')
-            except KeyError:
-                self._logger.exception(f'{payload["detail"]}')
-                raise Exception(
-                    f'{payload["detail"]}'
-                )
+            if payload:
+                try:
+                    self._token = payload['access_token']
+                    self._logger.debug('Found a valid access_token')
+                except KeyError:
+                    self._logger.exception(f'{payload["detail"]}')
+                    raise Exception(
+                        f'{payload["detail"]}'
+                    )
 
-            self._logger.info("Client successfully authorized to API using client credentials")
-            return self._token
+                self._logger.info("Client successfully authorized to API using client credentials")
+                return self._token
 
         self._logger.warning("No client_id, client_secret or an invalid token has been submitted. Pass a valid token or supply your client credentails to authorize to the Financefeast API")
         raise NotAuthorised()
@@ -194,14 +193,26 @@ class Rest:
                 else:
                     raise
 
+            if r.status_code == 403:
+                raise NotAuthorised(r.json())
+            if r.status_code == 404:
+                raise MissingTicker(r.json())
+            if r.status_code == 429:
+                raise RateLimitExceeded(r.json())
+
             if r.text:
-                return r.json()
+                if 'data' in r.text:
+                    return r.json()
 
             return None
 
     @property
     def token(self):
         return self._token
+
+    @property
+    def request(self):
+        return self._requests
 
     """
         Endpoint methods below

@@ -22,7 +22,7 @@ client = Rest(environment=Environments.prod)
 #print(client.usage(date_from="2021-04-01"))
 
 #tickers
-print(client.tickers())
+#print(client.tickers())
 
 #tickers_search
 #print(client.tickers_search(search_str="1d72e892-7336-4097-a762-7a9680111721"))
@@ -32,7 +32,7 @@ print(client.tickers())
 #print(client.exchanges())
 
 # end of day
-#print(client.eod('air.nz', date_from='2020-11-01', date_to='2020-11-29'))
+print(client.eod('air.nz', date_from='2020-11-01', date_to='2020-11-29'))
 
 # intra day
 #print(client.intraday('air.nz', datetime_from='2020-11-01', datetime_to='2020-11-29'))
