@@ -22,7 +22,7 @@ client = Rest(environment=Environments.prod)
 #print(client.usage(date_from="2021-04-01"))
 
 #tickers
-#print(client.tickers())
+print(client.tickers().data)
 
 #tickers_search
 #print(client.tickers_search(search_str="1d72e892-7336-4097-a762-7a9680111721"))

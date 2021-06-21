@@ -199,7 +199,11 @@ class Rest:
                 raise RateLimitExceeded(r.json())
 
             if r.text:
-                return Response(r.json())
+                try:
+                    r = r.json()
+                except Exception as e:
+                    r = {}
+                return Response(r)
 
             return None
 
