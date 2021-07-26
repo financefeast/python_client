@@ -95,6 +95,15 @@ Query params :
 Get a list of supported exchanges
 Query params : None
 
+### social_sentiment
+Get social media sentiment for ticker
+Query params :
+* ticker: string ; symbol or uuid4 of stock to return prices (required)
+* date_from: string ; date range start in format YYYY-MM-DD
+* date_to: string ; date range end in format YYYY-MM-DD
+* exchange: string ; exchange ticker is member of
+* platform: string ; limit search to a social media platform, eg twitter
+
 ### eod
 Get "end of day" prices for ticker
 Query params :
