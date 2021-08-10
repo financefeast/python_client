@@ -104,6 +104,13 @@ Query params :
 * exchange: string ; exchange ticker is member of
 * platform: string ; limit search to a social media platform, eg twitter
 
+### cpi
+Get "consumer price index" data
+Query params :
+* date_from: string ; date range start in format YYYY-MM-DD
+* date_to: string ; date range end in format YYYY-MM-DD
+* year: string ; year to search data for in format YYYY
+
 ### eod
 Get "end of day" prices for ticker
 Query params :
