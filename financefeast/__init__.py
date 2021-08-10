@@ -3,4 +3,4 @@ from financefeast.stream import Stream
 from financefeast.common import Environments
 import financefeast.exceptions
 
-__version__ = '0.0.22'
+__version__ = '0.0.23'
