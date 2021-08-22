@@ -45,7 +45,7 @@ from financefeast import Rest
 
 client = Rest(client_id="your_client_id",
               client_secret="your_client_secret")
-print(client.tickers())
+print(client.tickers().data)
 ```
 
 or
@@ -54,8 +54,9 @@ or
 from financefeast import Rest
 
 client = Rest(token="0Coreo505Xcm46*xkrj$sodm232s")
-print(client.tickers())
+print(client.tickers().data)
 ```
+
 
 ## Endpoints
 
@@ -128,6 +129,12 @@ Query params :
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
 * interval: string ; data time interval
+
+### last
+Get "last" price record for ticker
+Query params :
+* ticker: string ; symbol or uuid4 of stock to return prices (required)
+* exchange: string ; exchange ticker is member of
 
 ### sma
 Get "sma" prices and simple moving average for ticker

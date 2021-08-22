@@ -440,7 +440,7 @@ class Rest:
         :param ticker: ticker to search data for, eg air.nz
         :param datetime_from: in format YYYY-MM-DD 00:00:00
         :param datetime_to: in format YYYY-MM-DD 00:00:00
-        :param exchange: exhange ticker is in
+        :param exchange: exchange ticker is in
         :param interval: data time interval, eg 1h
         :return:
         """
@@ -477,13 +477,43 @@ class Rest:
         return self._requests.get(url=url, headers=headers, params=query)
 
 
+    def last(self, ticker:str, exchange:str='nzx'):
+        """
+        Call data/last endpoint to get last data record for ticker
+        :param ticker: ticker to search data for, eg air.nz
+        :param exchange: exchange ticker is in
+        :return:
+        """
+
+        """
+        Endpoint requires a valid token. Authorize client_id and client_secret first if token not passed
+        """
+        self.__authorize()
+
+        url = url = f'{self._environment.value}/data/last'
+        headers = self.__generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise MissingTicker(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        return self._requests.get(url=url, headers=headers, params=query)
+
     def sma(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h', window:list = [30]):
         """
         Call ta/sm-ma endpoint to get simple moving average data
         :param ticker: ticker to search data for, eg air.nz
         :param datetime_from: in format YYYY-MM-DD 00:00:00
         :param datetime_to: in format YYYY-MM-DD 00:00:00
-        :param exchange: exhange ticker is in
+        :param exchange: exchange ticker is in
         :param interval: data time interval, eg 1h
         :param window: a list of moving average windows to calculate, default is [30]
         :return:
@@ -530,7 +560,7 @@ class Rest:
         :param ticker: ticker to search data for, eg air.nz
         :param datetime_from: in format YYYY-MM-DD 00:00:00
         :param datetime_to: in format YYYY-MM-DD 00:00:00
-        :param exchange: exhange ticker is in
+        :param exchange: exchange ticker is in
         :param interval: data time interval, eg 1h
         :param window: a list of moving average windows to calculate, default is [30]
         :return:
@@ -577,7 +607,7 @@ class Rest:
         :param ticker: ticker to search data for, eg air.nz
         :param datetime_from: in format YYYY-MM-DD 00:00:00
         :param datetime_to: in format YYYY-MM-DD 00:00:00
-        :param exchange: exhange ticker is in
+        :param exchange: exchange ticker is in
         :param interval: data time interval, eg 1h
         :return:
         """
@@ -620,7 +650,7 @@ class Rest:
         :param ticker: ticker to search data for, eg air.nz
         :param datetime_from: in format YYYY-MM-DD 00:00:00
         :param datetime_to: in format YYYY-MM-DD 00:00:00
-        :param exchange: exhange ticker is in
+        :param exchange: exchange ticker is in
         :param interval: data time interval, eg 1h
         :param window: a list of moving average windows to calculate, default is [30]
         :return:
@@ -667,7 +697,7 @@ class Rest:
         :param ticker: ticker to search data for, eg air.nz
         :param datetime_from: in format YYYY-MM-DD 00:00:00
         :param datetime_to: in format YYYY-MM-DD 00:00:00
-        :param exchange: exhange ticker is in
+        :param exchange: exchange ticker is in
         :param interval: data time interval, eg 1h
         :param window: first adx sliding window lookback
         :param window_adx: last adx sliding window lookback
@@ -718,7 +748,7 @@ class Rest:
         :param ticker: ticker to search data for, eg air.nz
         :param datetime_from: in format YYYY-MM-DD 00:00:00
         :param datetime_to: in format YYYY-MM-DD 00:00:00
-        :param exchange: exhange ticker is in
+        :param exchange: exchange ticker is in
         :param interval: data time interval, eg 1h
         :param window: a list of moving average windows to calculate, default is [30]
         :return:
@@ -765,7 +795,7 @@ class Rest:
         :param ticker: ticker to search data for, eg air.nz
         :param datetime_from: in format YYYY-MM-DD 00:00:00
         :param datetime_to: in format YYYY-MM-DD 00:00:00
-        :param exchange: exhange ticker is in
+        :param exchange: exchange ticker is in
         :param interval: data time interval, eg 1h
         :param window: window lookback
         :param window_sma: simple moving average window
@@ -816,7 +846,7 @@ class Rest:
         :param ticker: ticker to search data for, eg air.nz
         :param date_from: in format YYYY-MM-DD
         :param date_to: in format YYYY-MM-DD
-        :param exchange: exhange ticker is in
+        :param exchange: exchange ticker is in
         :param year: year to search records for in format YYYY, eg 2020
         :return:
         """
@@ -859,7 +889,7 @@ class Rest:
         :param ticker: ticker to search data for, eg air.nz
         :param date_from: in format YYYY-MM-DD
         :param date_to: in format YYYY-MM-DD
-        :param exchange: exhange ticker is in
+        :param exchange: exchange ticker is in
         :param year: year to search records for in format YYYY, eg 2020
         :return:
         """
@@ -903,7 +933,7 @@ class Rest:
         :param ticker: ticker to search data for, eg air.nz
         :param date_from: in format YYYY-MM-DD
         :param date_to: in format YYYY-MM-DD
-        :param exchange: exhange ticker is in
+        :param exchange: exchange ticker is in
         :param year: year to search records for in format YYYY, eg 2020
         :return:
         """
@@ -946,7 +976,7 @@ class Rest:
         :param ticker: ticker to search data for, eg air.nz
         :param date_from: in format YYYY-MM-DD
         :param date_to: in format YYYY-MM-DD
-        :param exchange: exhange ticker is in
+        :param exchange: exchange ticker is in
         :param year: year to search records for in format YYYY, eg 2020
         :return:
         """
@@ -989,7 +1019,7 @@ class Rest:
         :param ticker: ticker to search data for, eg air.nz
         :param date_from: in format YYYY-MM-DD
         :param date_to: in format YYYY-MM-DD
-        :param exchange: exhange ticker is in
+        :param exchange: exchange ticker is in
         :param year: year to search records for in format YYYY, eg 2020
         :return:
         """
