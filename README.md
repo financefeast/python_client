@@ -123,7 +123,7 @@ Query params :
 * date_from: string ; date range start in format YYYY-MM-DD
 * date_to: string ; date range end in format YYYY-MM-DD
 * exchange: string ; exchange ticker is member of
-* interval: string ; data time interval
+* interval: string ; date time interval
 
 ### intraday
 Get "intraday" prices for ticker
@@ -132,12 +132,19 @@ Query params :
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
-* interval: string ; data time interval
+* interval: string ; date time interval
 
 ### last
 Get "last" price record for ticker
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
+* exchange: string ; exchange ticker is member of
+
+### orderbook
+Get an "orderbook" showing level 2 data for a ticker
+Query params :
+* ticker: string ; symbol or uuid4 of stock to return prices (required)
+* condensed: bool ; true for condensed orderbook or false for full. defaults to true to return a condensed response
 * exchange: string ; exchange ticker is member of
 
 ### sma
@@ -147,8 +154,8 @@ Query params :
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
-* interval: string ; data time interval
-* window: list ; list of integers for the sma lookback window
+* interval: string ; date time interval
+* window: list ; list of integers for the sma look-back window
 
 ### ema
 Get "ema" prices and exponential moving average for ticker
@@ -157,8 +164,8 @@ Query params :
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
-* interval: string ; data time interval
-* window: list ; list of integers for the ema lookback window
+* interval: string ; date time interval
+* window: list ; list of integers for the ema look-back window
 
 ### macd
 Get "macd" prices and moving average convergence divergence for ticker
@@ -167,7 +174,7 @@ Query params :
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
-* interval: string ; data time interval
+* interval: string ; date time interval
 
 ### rsi
 Get "rsi" prices and relative strength indicator for ticker
@@ -176,8 +183,8 @@ Query params :
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
-* interval: string ; data time interval
-* window: list ; list of integers for the rsi lookback window
+* interval: string ; date time interval
+* window: list ; list of integers for the rsi look-back window
 
 ### adx
 Get "adx" prices and average directional index for ticker
@@ -186,9 +193,9 @@ Query params :
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
-* interval: string ; data time interval
-* window: integer ; integer for the adx first sliding lookback window
-* window_adx: integer ; integer for the adx last sliding lookback window
+* interval: string ; date time interval
+* window: integer ; integer for the adx first sliding look-back window
+* window_adx: integer ; integer for the adx last sliding look-back window
 
 ### bollinger
 Get "bollinger" prices and bollinger band for ticker
@@ -197,8 +204,8 @@ Query params :
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
-* interval: string ; data time interval
-* window: list ; list of integers for the bollinger lookback window
+* interval: string ; date time interval
+* window: list ; list of integers for the bollinger look-back window
 
 ### stochastic
 Get "stochastic" prices and stochastic oscillator for ticker
@@ -207,8 +214,8 @@ Query params :
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
 * datetime_to: string ; date range end in format YYYY-MM-DD : hh:mm:ss
 * exchange: string ; exchange ticker is member of
-* interval: string ; data time interval
-* window: integer ; integer for the stochastic lookback window
+* interval: string ; date time interval
+* window: integer ; integer for the stochastic look-back window
 
 ### cashflow
 Get "cashflow" financial data for ticker
