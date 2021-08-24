@@ -71,19 +71,19 @@ Notes:
 
 
 ### validate
-Validate your token. Returns 'true' if valid and not expired, otherwise 'false'
+Validate your token. Returns 'true' if valid and not expired, otherwise 'false'<br>
 Query params : None
 ```python
 print(client.validate())
 ```
 ### alive
-Check API health.
+Check API health.<br>
 Query params : None
 ```python
 print(client.alive())
 ```
 ### usage
-Get account endpoint usage by endpoint, and count by day
+Get account endpoint usage by endpoint, and count by day<br>
 Query params :
 * date_from: string ; date range start in format YYYY-MM-DD
 * date_to: string ; date range end in format YYYY-MM-DD
@@ -91,14 +91,14 @@ Query params :
 print(client.usage(date_from="2021-04-01"))
 ```
 ### tickers
-Get a list of supported tickers
+Get a list of supported tickers<br>
 Query params :
 * exchange: string ; limit tickers to this exchange
 ```python
 print(client.tickers().data)
 ```
 ### tickers_search
-Get a list of supported tickers
+Get a list of supported tickers<br>
 Query params :
 * search_str: string ; search for a ticker symbol, uuid4 or company name. Partials will match and case insensitive
 * exchange: string ; limit tickers to this exchange
@@ -106,7 +106,7 @@ Query params :
 print(client.tickers_search(search_str="1d72e892-7336-4097-a762-7a9680111721"))
 ```
 ### exchange
-Get a list of supported exchanges
+Get a list of supported exchanges<br>
 Query params : None
 ```python
 print(client.exchange().data)
@@ -118,7 +118,7 @@ Get the current status of the exchange, either open or closed.
 print(client.exchange_status(exchange="nzx"))
 ```
 ### social_sentiment
-Get social media sentiment for ticker
+Get social media sentiment for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * date_from: string ; date range start in format YYYY-MM-DD
@@ -129,7 +129,7 @@ Query params :
 print(client.social_sentiment(ticker="air.nz", date_from="2021-01-01", date_to="2021-02-01"))
 ```
 ### cpi
-Get "consumer price index" data
+Get "consumer price index" data<br>
 Query params :
 * date_from: string ; date range start in format YYYY-MM-DD
 * date_to: string ; date range end in format YYYY-MM-DD
@@ -138,7 +138,7 @@ Query params :
 print(client.cpi(date_from="2021-01-01", date_to="2021-02-01"))
 ```
 ### eod
-Get "end of day" prices for ticker
+Get "end of day" prices for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * date_from: string ; date range start in format YYYY-MM-DD
@@ -149,7 +149,7 @@ Query params :
 print(client.eod('air.nz', date_from='2020-11-01', date_to='2020-11-29'))
 ```
 ### intraday
-Get "intraday" prices for ticker
+Get "intraday" prices for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -160,7 +160,7 @@ Query params :
 print(client.intraday('air.nz', datetime_from='2020-11-01', datetime_to='2020-11-29'))
 ```
 ### last
-Get "last" price record for ticker
+Get "last" price record for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * exchange: string ; exchange ticker is member of
@@ -177,7 +177,7 @@ Query params :
 print(client.orderbook('air.nz', condensed=False))
 ```
 ### sma
-Get "sma" prices and simple moving average for ticker
+Get "sma" prices and simple moving average for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -189,7 +189,7 @@ Query params :
 print(client.sma('air.nz', datetime_from='2021-08-01', datetime_to='2021-08-05'))
 ```
 ### ema
-Get "ema" prices and exponential moving average for ticker
+Get "ema" prices and exponential moving average for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -201,7 +201,7 @@ Query params :
 print(client.ema('air.nz', datetime_from='2020-11-01', datetime_to='2020-11-29'))
 ```
 ### macd
-Get "macd" prices and moving average convergence divergence for ticker
+Get "macd" prices and moving average convergence divergence for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -212,7 +212,7 @@ Query params :
 print(client.macd('air.nz', datetime_from='2020-11-01', datetime_to='2020-11-29'))
 ```
 ### rsi
-Get "rsi" prices and relative strength indicator for ticker
+Get "rsi" prices and relative strength indicator for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -224,7 +224,7 @@ Query params :
 print(client.rsi('air.nz', datetime_from='2020-11-01', datetime_to='2020-11-29'))
 ```
 ### adx
-Get "adx" prices and average directional index for ticker
+Get "adx" prices and average directional index for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -237,7 +237,7 @@ Query params :
 print(client.adx('air.nz', datetime_from='2020-11-01', datetime_to='2020-11-29'))
 ```
 ### bollinger
-Get "bollinger" prices and bollinger band for ticker
+Get "bollinger" prices and bollinger band for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -249,7 +249,7 @@ Query params :
 print(client.bollinger('air.nz', datetime_from='2020-11-01', datetime_to='2020-11-29'))
 ```
 ### stochastic
-Get "stochastic" prices and stochastic oscillator for ticker
+Get "stochastic" prices and stochastic oscillator for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return prices (required)
 * datetime_from: string ; date range start in format YYYY-MM-DD : hh:mm:ss
@@ -261,7 +261,7 @@ Query params :
 print(client.stochastic('air.nz', datetime_from='2020-11-01', datetime_to='2020-11-29'))
 ```
 ### cashflow
-Get "cashflow" financial data for ticker
+Get "cashflow" financial data for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return data (required)
 * date_from: string ; date range start in format YYYY-MM-DD
@@ -272,7 +272,7 @@ Query params :
 print(client.cashflow('air.nz', year=2020))
 ```
 ### income
-Get "income" financial data for ticker
+Get "income" financial data for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return data (required)
 * date_from: string ; date range start in format YYYY-MM-DD
@@ -283,7 +283,7 @@ Query params :
 print(client.income('air.nz', year=2020))
 ```
 ### balance
-Get "balance sheet" financial data for ticker
+Get "balance sheet" financial data for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return data (required)
 * date_from: string ; date range start in format YYYY-MM-DD
@@ -294,7 +294,7 @@ Query params :
 print(client.balance('air.nz', year=2020))
 ```
 ### dividend
-Get "dividend payout" data for ticker
+Get "dividend payout" data for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return data (required)
 * date_from: string ; date range start in format YYYY-MM-DD
@@ -305,7 +305,7 @@ Query params :
 print(client.dividend('air.nz', year=2020))
 ```
 ### split
-Get "split ratio" data for ticker
+Get "split ratio" data for ticker<br>
 Query params :
 * ticker: string ; symbol or uuid4 of stock to return data (required)
 * date_from: string ; date range start in format YYYY-MM-DD
@@ -350,5 +350,5 @@ PRs are more than welcome! Please include tests for your changes :)
 # History
 |Version|Description
 |------ |-----------
-|0.0.25|- Refactored 'exchanges' method to 'exchage' to align with actual API endpoint<br>- Corrected all technical indicator methods datetime_from and datetime_to parameters. These were not passing the correct parameter names to the API
+|0.0.25|- Refactored 'exchanges' method to 'exchange' to align with actual API endpoint<br>- Corrected all technical indicator methods datetime_from and datetime_to parameters. These were not passing the correct parameter names to the API
 |0.0.24|- Added 'cpi' method for the new consumer price index API endpoint
