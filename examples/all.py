@@ -22,13 +22,16 @@ client = Rest(environment=Environments.prod)
 #print(client.usage(date_from="2021-04-01"))
 
 #tickers
-print(client.tickers().data)
+#print(client.tickers().data)
 
 #tickers_search
 #print(client.tickers_search(search_str="1d72e892-7336-4097-a762-7a9680111721"))
 
-#exchanges
-#print(client.exchanges())
+#exchange
+#print(client.exchange().data)
+
+#exchange_status
+#print(client.exchange_status(exchange="nzx").data)
 
 # end of day
 #print(client.eod('air.nz', date_from='2020-11-01', date_to='2020-11-29'))
@@ -37,7 +40,7 @@ print(client.tickers().data)
 #print(client.intraday('air.nz', datetime_from='2020-11-01', datetime_to='2020-11-29'))
 
 # simple moving average
-#print(client.sma('air.nz', datetime_from='2020-11-01', datetime_to='2020-11-29'))
+#print(client.sma('air.nz', datetime_from='2021-08-01', datetime_to='2021-08-05'))
 
 # exponential moving average
 #print(client.ema('air.nz', datetime_from='2020-11-01', datetime_to='2020-11-29'))

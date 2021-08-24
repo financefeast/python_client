@@ -304,7 +304,7 @@ class Rest:
 
         return self._requests.get(url=url, params=query)
 
-    def exchanges(self):
+    def exchange(self):
         """
         Call info/exchange endpoint to get a list of supported exchanges
         :return: list
@@ -312,6 +312,22 @@ class Rest:
         url = url = f'{self._environment.value}/info/exchange'
 
         return self._requests.get(url=url)
+
+    def exchange_status(self, exchange:str='nzx'):
+        """
+        Call info/exchange/status endpoint to get the current status of the exchange
+        :param exchange: exchange ticker is in
+        :return: list
+        """
+        url = url = f'{self._environment.value}/info/exchange/status'
+
+        # build query parameters for endpoint
+        query = {}
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        return self._requests.get(url=url, params=query)
 
     def social_sentiment(self, ticker:str, date_from:str=None, date_to:str=None, platform:str=None, exchange:str='nzx'):
         """
@@ -354,6 +370,7 @@ class Rest:
             query.update({'platform' : platform})
 
         return self._requests.get(url=url, headers=headers, params=query)
+
 
     def cpi(self, date_from:str=None, date_to:str=None, year:str=None):
         """
@@ -463,10 +480,10 @@ class Rest:
         query = {'ticker' : ticker}
 
         if datetime_from:
-            query.update({'date_from' : datetime_from})
+            query.update({'datetime_from' : datetime_from})
 
         if datetime_to:
-            query.update({'date_to' : datetime_to})
+            query.update({'datetime_to' : datetime_to})
 
         if exchange:
             query.update({'exchange' : exchange})
@@ -507,6 +524,42 @@ class Rest:
 
         return self._requests.get(url=url, headers=headers, params=query)
 
+    def orderbook(self, ticker:str, condensed:bool=True, exchange:str='nzx'):
+        """
+        The Orderbook endpoint returns the current level 2 market depth or orderbook for a stock. The orderbook is updated
+        frequently during trading hours on the exchange and should be considered as “real time”.
+        :param ticker: ticker to search data for, eg air.nz
+        :param condensed: true for condensed orderbook or false for full. defaults to true to return a condensed response
+        :param exchange: exchange ticker is in
+        :return:
+        """
+
+        """
+        Endpoint requires a valid token. Authorize client_id and client_secret first if token not passed
+        """
+        self.__authorize()
+
+        url = url = f'{self._environment.value}/data/orderbook'
+        headers = self.__generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise MissingTicker(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if condensed:
+            query.update({'condensed' : condensed})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+
+        return self._requests.get(url=url, headers=headers, params=query)
+
     def sma(self, ticker:str, datetime_from:str=None, datetime_to:str=None, exchange:str='nzx', interval:str='1h', window:list = [30]):
         """
         Call ta/sm-ma endpoint to get simple moving average data
@@ -537,10 +590,10 @@ class Rest:
         query = {'ticker' : ticker}
 
         if datetime_from:
-            query.update({'date_from' : datetime_from})
+            query.update({'datetime_from' : datetime_from})
 
         if datetime_to:
-            query.update({'date_to' : datetime_to})
+            query.update({'datetime_to' : datetime_to})
 
         if exchange:
             query.update({'exchange' : exchange})
@@ -584,10 +637,10 @@ class Rest:
         query = {'ticker' : ticker}
 
         if datetime_from:
-            query.update({'date_from' : datetime_from})
+            query.update({'datetime_from' : datetime_from})
 
         if datetime_to:
-            query.update({'date_to' : datetime_to})
+            query.update({'datetime_to' : datetime_to})
 
         if exchange:
             query.update({'exchange' : exchange})
@@ -630,10 +683,10 @@ class Rest:
         query = {'ticker' : ticker}
 
         if datetime_from:
-            query.update({'date_from' : datetime_from})
+            query.update({'datetime_from' : datetime_from})
 
         if datetime_to:
-            query.update({'date_to' : datetime_to})
+            query.update({'datetime_to' : datetime_to})
 
         if exchange:
             query.update({'exchange' : exchange})
@@ -674,10 +727,10 @@ class Rest:
         query = {'ticker' : ticker}
 
         if datetime_from:
-            query.update({'date_from' : datetime_from})
+            query.update({'datetime_from' : datetime_from})
 
         if datetime_to:
-            query.update({'date_to' : datetime_to})
+            query.update({'datetime_to' : datetime_to})
 
         if exchange:
             query.update({'exchange' : exchange})
@@ -722,10 +775,10 @@ class Rest:
         query = {'ticker' : ticker}
 
         if datetime_from:
-            query.update({'date_from' : datetime_from})
+            query.update({'datetime_from' : datetime_from})
 
         if datetime_to:
-            query.update({'date_to' : datetime_to})
+            query.update({'datetime_to' : datetime_to})
 
         if exchange:
             query.update({'exchange' : exchange})
@@ -772,10 +825,10 @@ class Rest:
         query = {'ticker' : ticker}
 
         if datetime_from:
-            query.update({'date_from' : datetime_from})
+            query.update({'datetime_from' : datetime_from})
 
         if datetime_to:
-            query.update({'date_to' : datetime_to})
+            query.update({'datetime_to' : datetime_to})
 
         if exchange:
             query.update({'exchange' : exchange})
@@ -820,10 +873,10 @@ class Rest:
         query = {'ticker' : ticker}
 
         if datetime_from:
-            query.update({'date_from' : datetime_from})
+            query.update({'datetime_from' : datetime_from})
 
         if datetime_to:
-            query.update({'date_to' : datetime_to})
+            query.update({'datetime_to' : datetime_to})
 
         if exchange:
             query.update({'exchange' : exchange})
