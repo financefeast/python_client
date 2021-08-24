@@ -92,9 +92,13 @@ Query params :
 * search_str: string ; search for a ticker symbol, uuid4 or company name. Partials will match and case insensitive
 * exchange: string ; limit tickers to this exchange
 
-### exchanges
+### exchange
 Get a list of supported exchanges
 Query params : None
+
+### exchange_status
+Get the current status of the exchange, either open or closed.
+* exchange: string ; query this exchange
 
 ### social_sentiment
 Get social media sentiment for ticker

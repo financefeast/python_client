@@ -304,7 +304,7 @@ class Rest:
 
         return self._requests.get(url=url, params=query)
 
-    def exchanges(self):
+    def exchange(self):
         """
         Call info/exchange endpoint to get a list of supported exchanges
         :return: list
@@ -312,6 +312,22 @@ class Rest:
         url = url = f'{self._environment.value}/info/exchange'
 
         return self._requests.get(url=url)
+
+    def exchange_status(self, exchange:str='nzx'):
+        """
+        Call info/exchange/status endpoint to get the current status of the exchange
+        :param exchange: exchange ticker is in
+        :return: list
+        """
+        url = url = f'{self._environment.value}/info/exchange/status'
+
+        # build query parameters for endpoint
+        query = {}
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        return self._requests.get(url=url, params=query)
 
     def social_sentiment(self, ticker:str, date_from:str=None, date_to:str=None, platform:str=None, exchange:str='nzx'):
         """
