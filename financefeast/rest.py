@@ -407,6 +407,52 @@ class Rest:
         return self._requests.get(url=url, headers=headers, params=query)
 
 
+    def announcement(self, ticker:str, date_from:str=None, date_to:str=None, platform:str=None, exchange:str='nzx', year:str=None):
+        """
+        Call the alternate/announcement endpoint to return company announcements
+        :param ticker: ticker to search data for, eg air.nz
+        :param date_from: in format YYYY-MM-DD
+        :param date_to: in format YYYY-MM-DD
+        :param platform: social media platform, eg twitter
+        :param exchange: exchange ticker is in
+        :param year: year to search records for in format YYYY, eg 2020
+        :return:
+        """
+
+        """
+        Endpoint requires a valid token. Authorize client_id and client_secret first if token not passed
+        """
+        self.__authorize()
+
+        url = url = f'{self._environment.value}/alternate/announcement'
+        headers = self.__generate_authorization_header()
+
+        # check required parameters
+        if not ticker:
+            raise MissingTicker(
+                "parameter `ticker` must be either passed"
+            )
+
+        # build query parameters for endpoint
+        query = {'ticker' : ticker}
+
+        if date_from:
+            query.update({'date_from' : date_from})
+
+        if date_to:
+            query.update({'date_to' : date_to})
+
+        if exchange:
+            query.update({'exchange' : exchange})
+
+        if platform:
+            query.update({'platform' : platform})
+
+        if year:
+            query.update({'year' : year})
+
+        return self._requests.get(url=url, headers=headers, params=query)
+
 
     def eod(self, ticker:str, date_from:str=None, date_to:str=None, exchange:str='nzx', interval:str='1d'):
         """

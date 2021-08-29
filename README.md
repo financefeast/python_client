@@ -136,6 +136,18 @@ Query params :
 * year: string ; year to search data for in format YYYY
 ```python
 print(client.cpi(date_from="2021-01-01", date_to="2021-02-01"))
+
+### announcement
+Get company announcements for ticker<br>
+Query params :
+* ticker: string ; symbol or uuid4 of stock to return prices (required)
+* date_from: string ; date range start in format YYYY-MM-DD
+* date_to: string ; date range end in format YYYY-MM-DD
+* exchange: string ; exchange ticker is member of
+* year: string ; year to search data for in format YYYY
+```python
+print(client.announcement(ticker="air.nz", date_from="2021-01-01", date_to="2021-02-01"))
+
 ```
 ### eod
 Get "end of day" prices for ticker<br>
@@ -350,5 +362,6 @@ PRs are more than welcome! Please include tests for your changes :)
 # History
 |Version|Description
 |------ |-----------
+|0.0.26|- Added company announcements 'announcement' endpoint.
 |0.0.25|- Refactored 'exchanges' method to 'exchange' to align with actual API endpoint<br>- Corrected all technical indicator methods datetime_from and datetime_to parameters. These were not passing the correct parameter names to the API
 |0.0.24|- Added 'cpi' method for the new consumer price index API endpoint
