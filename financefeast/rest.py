@@ -72,6 +72,11 @@ class Rest:
 
         self._logger.info(f"API environment set as {self._environment.name}")
 
+        """
+        If we dont get a token passed as a parameter to init then check environment variable
+        """
+        if not self._token:
+            self._token = os.environ.get('FF-TOKEN')
 
     def __authorize(self):
         """
@@ -87,12 +92,12 @@ class Rest:
 
             if not self._client_secret and not self._token:
                 raise MissingClientSecret(
-                    "parameter 'client_id' must be either passed or set as an environment variable 'FF-CLIENT-ID', or pass parameter 'token' with a valid bearer token"
+                    "Missng authentication token. Set environment variable FF-TOKEN=YOUR_API_TOKEN, or pass token=YOUR_API_TOKEN as a parameter when creating an instance of FinanceFeast. Please check the readme or API documentation for more help https://doc.financefeast.io"
                 )
 
             if not self._client_id and not self._token:
                 raise MissingClientId(
-                    "parameter 'client_secret' must be either passed or set as an environment variable 'FF-CLIENT-SECRET', or pass parameter 'token' with a valid bearer token"
+                    "Missng authentication token. Set environment variable FF-TOKEN=YOUR_API_TOKEN, or pass token=YOUR_API_TOKEN as a parameter when creating an instance of FinanceFeast. Please check the readme or API documentation for more help https://doc.financefeast.io"
                 )
 
             if not self._token and self._client_id and self._client_secret:

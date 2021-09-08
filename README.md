@@ -18,6 +18,25 @@ $ pip install financefeast
 The API reference documentation can be found [here](https://doc.financefeast.io/api-documentation/api-v1/)
 
 ## Usage
+To authenticate to the API you must supply your API authentication token which can be obtained from your [API Dashboard](https://financefeast.io/#creds)
+
+The token can be supplied by either:
+* Passing your token when creating an instance of Financefeast as
+    ```python
+    client = Financefeast(token="SOME TOKEN")
+    ```
+* As an environment variable FF-TOKEN
+    ```commandline
+    FF-TOKEN="SOME TOKEN"
+    client = Financefeast()
+    ```
+
+## Client Credentials (DEPRECIATED)
+Client credentials using the client ID and client Secret are depreciated and will be removed from a future release. You can at the present time
+use this authentication method to allow time to upgrade your applications. 
+
+NOTE: When using the new API authentication tokens, you no longer need to `login` to the API.
+
 You must supply one of either :
 * Your client id and client secret. You can do this one of two ways, either when you create an instance of Financefeast by passing
    client_id and client_secret as args.
@@ -46,17 +65,7 @@ You must supply one of either :
 ```python
 from financefeast import Rest
 
-client = Rest(client_id="your_client_id",
-              client_secret="your_client_secret")
-print(client.tickers().data)
-```
-
-or
-
-```python
-from financefeast import Rest
-
-client = Rest(token="0Coreo505Xcm46*xkrj$sodm232s")
+client = Rest(token="SOME_TOKEN")
 print(client.tickers().data)
 ```
 
@@ -67,7 +76,7 @@ Notes:
 * For endpoints that have date query parameters, if these are not passed then the default will be the current day, except
  for financial endpoints where the date will default to the current calendar year.
 * Ticker query parameter can either be a symbol or uuid4 string. The uuid4 string is explict, where the symbol could be
- in multiple exchanges. If the exchange query parameter is also passed with symbol then that would be explict also.
+ in multiple exchanges. If the exchange query parameter is also passed with symbol, then that would be explict also.
 
 
 ### validate
