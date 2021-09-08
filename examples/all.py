@@ -1,16 +1,13 @@
 from financefeast.rest import Rest, Environments
 
 """
-    Remember to see some environment variables!
-        FF-CLIENT-ID
-        FF-CLIENT-SECRET
-        
-    or supply client_id and client_token as parameters
-    
-    or supply a token using token parameter
+    Remember to see your API token environment variable!
+        FF-TOKEN
+
+    or supply a token=XXX using token parameter when creating the Financefeast instance
 """
 
-client = Rest(environment=Environments.test)
+client = Rest(environment=Environments.prod)
 
 # validate
 #print(client.validate())
