@@ -371,6 +371,7 @@ PRs are more than welcome! Please include tests for your changes :)
 # History
 |Version|Description
 |------ |-----------
+|0.0.27|- Client credentials depreciated. Now using API authentication tokens for authentication to the API.
 |0.0.26|- Added company announcements 'announcement' endpoint.
 |0.0.25|- Refactored 'exchanges' method to 'exchange' to align with actual API endpoint<br>- Corrected all technical indicator methods datetime_from and datetime_to parameters. These were not passing the correct parameter names to the API
 |0.0.24|- Added 'cpi' method for the new consumer price index API endpoint
