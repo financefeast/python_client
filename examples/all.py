@@ -10,7 +10,7 @@ from financefeast.rest import Rest, Environments
 client = Rest(environment=Environments.prod)
 
 # validate
-#print(client.validate())
+print(client.validate())
 
 # alive
 #print(client.alive())
