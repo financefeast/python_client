@@ -72,6 +72,11 @@ class Rest:
 
         self._logger.info(f"API environment set as {self._environment.name}")
 
+        """
+        If we dont get a token passed as a parameter to init then check environment variable
+        """
+        if not self._token:
+            self._token = os.environ.get('FF-TOKEN')
 
     def __authorize(self):
         """

@@ -10,7 +10,7 @@ from financefeast.rest import Rest, Environments
     or supply a token using token parameter
 """
 
-client = Rest(environment=Environments.prod)
+client = Rest(environment=Environments.test)
 
 # validate
 #print(client.validate())
@@ -62,3 +62,6 @@ client = Rest(environment=Environments.prod)
 
 # balance
 #print(client.balance('air.nz', year=2020))
+
+# balance
+#print(client.announcement('air.nz', year=2021))
