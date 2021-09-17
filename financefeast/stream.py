@@ -11,12 +11,19 @@ class Stream(object):
     DEFAULT_LOG_LEVEL = logging.INFO
     DEFAULT_SOCKET_HEADER = None
 
-    def __init__(self, token:str, logger:logging.Logger = None, environment:EnvironmentsStream=EnvironmentsStream.local):
-
+    def __init__(self, token:str, on_data=None, logger:logging.Logger = None, environment:EnvironmentsStream=EnvironmentsStream.local):
+        """
+        Stream class for Financefeast Streaming data
+        :param token: API authentication token
+        :param on_data: callback object that is called when streamed data is received. 1st arg is this class object, 2nd is the data payload in json format
+        :param logger: supply your own logger or use the default
+        :param environment: supply an optional Financefeast Environment ENUM object
+        """
         self._token = token
         self._logger = logger
         self._environment = environment
         self._websocket = None
+        self._on_data = on_data
 
         if not logger:
             self._logger = logging.getLogger('ff_stream')
@@ -32,6 +39,14 @@ class Stream(object):
         :return:
         """
         self._create_connection()
+
+    def _callback(self, callback, *args):
+        if callback:
+            try:
+                callback(self, *args)
+
+            except Exception as e:
+                self._logger.error("error from callback {}: {}".format(callback, e))
 
 
     def _create_connection(self):
@@ -87,8 +102,10 @@ class Stream(object):
         :return:
         """
 
-        self._logger.info(f"Received message {message}")
-        return json.dumps(message.decode("utf-8"))
+        #self._logger.info(f"Received message {message}")
+        data = json.loads(message)
+
+        self._callback(self._on_data, data)
 
     def _send(self, data):
         """
