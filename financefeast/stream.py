@@ -33,20 +33,48 @@ class Stream(object):
 
         self._logger.info(f"API environment set as {self._environment.name}")
 
+        # print message if on_data callback object not supplied
+        if not self._on_data:
+            self._logger.info("Supply an on_data callback object when instantiating the Stream class. Check readme for more info. Received data will be sent to log")
+
     def connect(self):
         """
-        Creates inital websocket connection
+        Creates initial websocket connection
         :return:
         """
         self._create_connection()
 
+    def send(self, message:json):
+        """
+        Sends a message to the stream server
+        :param message:
+        :return:
+        """
+        self._send(message)
+
     def _callback(self, callback, *args):
+        """
+        Callback object. If supplied data will be pushed there, otherwise we just log out to the logger.
+        The callback will receive 2 parameters:
+            stream: this is the stream object
+            data:   the received data in json format
+
+        Example callback could look like this:
+        def on_data(stream, data):
+            print(data)
+
+        :param callback:
+        :param args:
+        :return:
+        """
         if callback:
             try:
                 callback(self, *args)
 
             except Exception as e:
                 self._logger.error("error from callback {}: {}".format(callback, e))
+        else:
+            self._logger.info(f"{args}")
 
 
     def _create_connection(self):
@@ -98,7 +126,7 @@ class Stream(object):
 
     def _on_message(self, wsapp, message):
         """
-        Returns data or empty string ''
+        Returns data
         :return:
         """
 
@@ -118,4 +146,8 @@ class Stream(object):
             self._websocket.send(data)
 
     def _ping(self):
+        """
+        Manual websocket ping. Auto ping is enabled so this should not be needed.
+        :return:
+        """
         return self._send({'type': 'ping'})
