@@ -1,2 +1,3 @@
 requests
 pytest==4.4.1
+websocket-client
