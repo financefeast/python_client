@@ -103,6 +103,7 @@ class Stream(object):
         Send authentication
         :return:
         """
+        self._logger.info(f"Attempting to authorise to the Stream server")
         self._send({"type": "authenticate",
                     "data": {
                         "token": self._token
@@ -131,9 +132,19 @@ class Stream(object):
         """
 
         #self._logger.info(f"Received message {message}")
-        data = json.loads(message)
+        if isinstance(message, str):
+            """
+            Convert str to json
+            """
+            data = json.loads(message)
+        else:
+            """
+            Assume already json
+            """
+            data = message
 
         self._callback(self._on_data, data)
+
 
     def _send(self, data):
         """
