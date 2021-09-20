@@ -7,3 +7,5 @@ class Environments(Enum):
 
 class EnvironmentsStream(Enum):
     local = "ws://localhost:5005/ws"
+    test = "ws://stream.test.financefeast.io/ws"
+    prod = "ws://stream.financefeast.io/ws"
