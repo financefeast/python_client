@@ -362,7 +362,9 @@ client.connect()
 ### Notes
 * The Stream class will auto-reconnect on a dropped connection.
 * It will authenticate to the Stream API and if unsuccessful the Stream API will drop the socket and return an error to the client.
-* It will return forever until terminated.
+* It will run forever until terminated.
+* All subscription plans have a maximum concurrent streams limit. If you attempt to open a stream above your limit it will be rejected
+with an error message.
 
 # Features of the Client
 
