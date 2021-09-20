@@ -17,18 +17,20 @@ $ pip install financefeast
 ## API Reference
 The API reference documentation can be found [here](https://doc.financefeast.io/api-documentation/api-v1/)
 
+# Rest Client
+
 ## Usage
 To authenticate to the API you must supply your API authentication token which can be obtained from your [API Dashboard](https://financefeast.io/#creds)
 
 The token can be supplied by either:
 * Passing your token when creating an instance of Financefeast as
     ```python
-    client = Financefeast(token="SOME TOKEN")
+    client = Rest(token="SOME TOKEN")
     ```
 * As an environment variable FF-TOKEN
     ```commandline
     FF-TOKEN="SOME TOKEN"
-    client = Financefeast()
+    client = Rest()
     ```
 
 ## Client Credentials (DEPRECIATED)
@@ -41,7 +43,7 @@ You must supply one of either :
 * Your client id and client secret. You can do this one of two ways, either when you create an instance of Financefeast by passing
    client_id and client_secret as args.
    ```
-   client = FinanceFeast(client_id="SOME ID", client_secret="SOME SECRET")
+   client = Rest(client_id="SOME ID", client_secret="SOME SECRET")
    ```
    
    *or*
@@ -52,11 +54,11 @@ You must supply one of either :
    ```
    and then
    ```
-   client = FinanceFeast()
+   client = Rest()
    ```
 * A valid access token
    ```
-   client = FinanceFeast(token="SOME ACCESS TOKEN")
+   client = Rest(token="SOME ACCESS TOKEN")
    ```
 
 
@@ -336,15 +338,44 @@ Query params :
 ```python
 print(client.split('air.nz', year=2020))
 ```
-# Features
 
-All API endpoints are supported, plus detection of ratelimiting.
+# Stream
+
+The Stream client connects to the Financefeast Stream API using websockets. This is a feature of some of the paid subscription plans and
+streams in real-time price updates received from the exchange. It's as real-time as you can get.
+
+## Usage
+
+Instantiate the class Stream, passing in parameters `token` and a callback object `on_data`. The callback object or method will be passed
+the received data from the Stream API in json format. If no callback method is passed data will be logged to stdout as a string.
+
+```python
+from financefeast.stream import Stream, EnvironmentsStream
+
+def on_data(stream, data):
+    print(data)
+
+client = Stream(token='your_api_token', on_data=on_data, environment=EnvironmentsStream.local)
+client.connect()
+```
+
+### Notes
+* The Stream class will auto-reconnect on a dropped connection.
+* It will authenticate to the Stream API and if unsuccessful the Stream API will drop the socket and return an error to the client.
+* It will run forever until terminated.
+* All subscription plans have a maximum concurrent streams limit. If you attempt to open a stream above your limit it will be rejected
+with an error message.
+
+# Features of the Client
+
+All API endpoints are supported, plus detection of ratelimiting. Streaming is also included.
 
 Supported now:
 
 - All routes
 - Rate limit aware
 - Authorization
+- Streaming via websockets
 
 Future:
 
@@ -371,6 +402,7 @@ PRs are more than welcome! Please include tests for your changes :)
 # History
 |Version|Description
 |------ |-----------
+|0.0.28|- Stream class added to consume Financefeast Stream API
 |0.0.27|- Client credentials depreciated. Now using API authentication tokens for authentication to the API.
 |0.0.26|- Added company announcements 'announcement' endpoint.
 |0.0.25|- Refactored 'exchanges' method to 'exchange' to align with actual API endpoint<br>- Corrected all technical indicator methods datetime_from and datetime_to parameters. These were not passing the correct parameter names to the API
