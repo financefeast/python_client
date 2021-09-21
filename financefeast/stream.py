@@ -6,6 +6,11 @@ import logging
 import time
 import json
 from ssl import SSLError
+import ssl
+import certifi
+
+ssl_context = ssl.create_default_context()
+ssl_context.load_verify_locations(certifi.where())
 
 class Stream(object):
     DEFAULT_LOG_LEVEL = logging.INFO
