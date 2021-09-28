@@ -402,6 +402,8 @@ PRs are more than welcome! Please include tests for your changes :)
 # History
 |Version|Description
 |------ |-----------
+|0.0.31|- Stream environment update for production
+|0.0.30|- Stream environment update
 |0.0.29|- Updated stream endpoint paths
 |0.0.28|- Stream class added to consume Financefeast Stream API
 |0.0.27|- Client credentials depreciated. Now using API authentication tokens for authentication to the API.

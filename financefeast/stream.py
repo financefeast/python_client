@@ -5,18 +5,12 @@ from websocket import (
 import logging
 import time
 import json
-from ssl import SSLError
-import ssl
-import certifi
-
-ssl_context = ssl.create_default_context()
-ssl_context.load_verify_locations(certifi.where())
 
 class Stream(object):
     DEFAULT_LOG_LEVEL = logging.INFO
     DEFAULT_SOCKET_HEADER = None
 
-    def __init__(self, token:str, on_data=None, logger:logging.Logger = None, environment:EnvironmentsStream=EnvironmentsStream.local):
+    def __init__(self, token:str, on_data=None, logger:logging.Logger = None, environment:EnvironmentsStream=EnvironmentsStream.prod):
         """
         Stream class for Financefeast Streaming data
         :param token: API authentication token
